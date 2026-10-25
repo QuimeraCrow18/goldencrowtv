@@ -1,0 +1,37 @@
+{
+  "clan": {
+    "whatsapp": "https://whatsapp.com/tu-enlace-aqui",
+    "telegram": "https://t.me/tu-enlace-aqui",
+    "lider": "crow ✡︎",
+    "nombre": "ॐiluminati"
+  },
+  "contenido": [
+    {
+      "id": "rick-y-morty",
+      "titulo": "Rick y Morty",
+      "tipo": "serie",
+      "categoria": "Series",
+      "poster": "https://i.pinimg.com/736x/1d/34/40/1d3440b88ae169ae134643005e5215de.jpg",
+      "sinopsis": "Las locas aventuras de un científico loco y su nieto.",
+      "temporadas": [
+        {
+          "temporada": 1,
+          "capitulos": [
+            { "num": 1, "titulo": "Piloto", "iframe": "https://example.com/embed/ep1", "descarga": "" },
+            { "num": 2, "titulo": "Césped Demencial", "iframe": "https://example.com/embed/ep2", "descarga": "" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2012",
+      "titulo": "2012",
+      "tipo": "pelicula",
+      "categoria": "Películas",
+      "poster": "https://media.themoviedb.org/t/p/w130_and_h195_face/iUe4RD54SffgmRxGaQf26NZ04rJ.jpg",
+      "sinopsis": "El fin del mundo según el calendario maya.",
+      "iframe": "https://example.com/embed/pelicula-2012",
+      "descarga": ""
+    }
+  ]
+}
