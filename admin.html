@@ -27,53 +27,24 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      font-size: 13px;
-      margin-bottom: 5px;
-      color: #b3b3b3;
-    }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; font-size: 13px; margin-bottom: 5px; color: #b3b3b3; }
     input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      background: #080a0f;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 4px;
-      color: #ffffff;
-      font-size: 14px;
+      width: 100%; padding: 10px; background: #080a0f;
+      border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 4px; color: #ffffff; font-size: 14px;
     }
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: #e50914;
-    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #e50914; }
     .btn {
-      background: #e50914;
-      color: white;
-      border: none;
-      padding: 12px;
-      width: 100%;
-      border-radius: 4px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
+      background: #e50914; color: white; border: none; padding: 12px; width: 100%;
+      border-radius: 4px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 10px;
     }
     .btn:hover { background: #b80710; }
     .section-title {
-      font-size: 16px;
-      color: #ffcc00;
-      margin: 25px 0 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding-bottom: 5px;
+      font-size: 16px; color: #ffcc00; margin: 25px 0 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px;
     }
     #statusMsg {
-      margin-top: 15px;
-      text-align: center;
-      font-size: 13px;
-      font-weight: bold;
+      margin-top: 15px; text-align: center; font-size: 13px; font-weight: bold;
     }
   </style>
 </head>
@@ -101,15 +72,8 @@
 
     <div class="section-title">🎬 Agregar Contenido (Película / Serie / Anime / Novela)</div>
     <div class="form-group">
-      <label>Tipo de Contenido:</label>
-      <select id="tipoContenido">
-        <option value="pelicula">Película</option>
-        <option value="serie">Serie / Anime / Novela</option>
-      </select>
-    </div>
-    <div class="form-group">
       <label>Título:</label>
-      <input type="text" id="tituloContenido" placeholder="Ej. Breaking Bad" />
+      <input type="text" id="tituloContenido" placeholder="Ej. Interstellar" />
     </div>
     <div class="form-group">
       <label>Categoría en Portada:</label>
@@ -125,8 +89,8 @@
       <input type="text" id="posterContenido" placeholder="https://..." />
     </div>
     <div class="form-group">
-      <label>Sinopsis:</label>
-      <textarea id="sinopsisContenido" rows="2" placeholder="Breve descripción..."></textarea>
+      <label>Enlace de Reproducción (Iframe / Streaming):</label>
+      <input type="text" id="iframeContenido" placeholder="https://..." />
     </div>
     <button class="btn" onclick="agregarContenido()">Publicar en el Catálogo</button>
 
@@ -134,12 +98,100 @@
   </div>
 
   <script>
-    // Lógica básica de conexión con GitHub API se integrará aquí en el siguiente ajuste fino.
-    function actualizarClan() {
-      alert("Función de enlace al clan lista para conectar con GitHub.");
+    const REPO = "QuimeraCrow18/goldencrowtv"; // Tu repositorio oficial
+
+    async function obtenerCatalogoRemoto(token) {
+      let res = await fetch(`https://api.github.com/repos/${REPO}/contents/catalogo.json`, {
+        headers: { "Authorization": `token ${token}` }
+      });
+      if(!res.ok) throw new Error("Token incorrecto o error al conectar con GitHub.");
+      let data = await res.json();
+      let contenidoDecodificado = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+      return { json: contenidoDecodificado, sha: data.sha };
     }
-    function agregarContenido() {
-      alert("Función para agregar contenido lista para conectar con GitHub.");
+
+    async function guardarCatalogoRemoto(token, jsonData, sha, mensajeCommit) {
+      let contenidoCodificado = btoa(unescape(encodeURIComponent(JSON.stringify(jsonData, null, 2))));
+      let res = await fetch(`https://api.github.com/repos/${REPO}/contents/catalogo.json`, {
+        method: "PUT",
+        headers: {
+          "Authorization": `token ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: mensajeCommit,
+          content: contenidoCodificado,
+          sha: sha
+        })
+      });
+      if(!res.ok) throw new Error("No se pudo guardar en GitHub.");
+    }
+
+    async function actualizarClan() {
+      let token = document.getElementById('ghToken').value.trim();
+      let wa = document.getElementById('whatsappLink').value.trim();
+      let tg = document.getElementById('telegramLink').value.trim();
+      let msg = document.getElementById('statusMsg');
+
+      if(!token) { alert("¡Fiega tu token de GitHub!"); return; }
+
+      msg.style.color = "#ffcc00";
+      msg.innerText = "Guardando enlaces del clan...";
+
+      try {
+        let remoto = await obtenerCatalogoRemoto(token);
+        if(!remoto.json.clan) remoto.json.clan = {};
+        if(wa) remoto.json.clan.whatsapp = wa;
+        if(tg) remoto.json.clan.telegram = tg;
+
+        await guardarCatalogoRemoto(token, remoto.json, remoto.sha, "Actualizar enlaces del clan ॐiluminati");
+        msg.style.color = "#25d366";
+        msg.innerText = "¡Enlaces del clan actualizados con éxito!";
+      } catch (err) {
+        msg.style.color = "#e50914";
+        msg.innerText = err.message;
+      }
+    }
+
+    async function agregarContenido() {
+      let token = document.getElementById('ghToken').value.trim();
+      let titulo = document.getElementById('tituloContenido').value.trim();
+      let categoria = document.getElementById('categoriaContenido').value;
+      let poster = document.getElementById('posterContenido').value.trim();
+      let iframe = document.getElementById('iframeContenido').value.trim();
+      let msg = document.getElementById('statusMsg');
+
+      if(!token || !titulo || !poster) { alert("Llena al menos el Token, el Título y la URL del Póster."); return; }
+
+      msg.style.color = "#ffcc00";
+      msg.innerText = "Publicando contenido en GitHub...";
+
+      try {
+        let remoto = await obtenerCatalogoRemoto(token);
+        if(!remoto.json.contenido) remoto.json.contenido = [];
+
+        let nuevoItem = {
+          id: titulo.toLowerCase().replace(/ /g, '-'),
+          titulo: titulo,
+          categoria: categoria,
+          poster: poster,
+          iframe: iframe
+        };
+
+        remoto.json.contenido.push(nuevoItem);
+
+        await guardarCatalogoRemoto(token, remoto.json, remoto.sha, `Agregar ${titulo} a Golden Crow TV`);
+        msg.style.color = "#25d366";
+        msg.innerText = `¡"${titulo}" publicado con éxito!`;
+        
+        // Limpiar campos
+        document.getElementById('tituloContenido').value = '';
+        document.getElementById('posterContenido').value = '';
+        document.getElementById('iframeContenido').value = '';
+      } catch (err) {
+        msg.style.color = "#e50914";
+        msg.innerText = err.message;
+      }
     }
   </script>
 
