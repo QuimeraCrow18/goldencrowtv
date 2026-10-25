@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reproductor - Golden Crow TV</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #080a0f;
+      color: #ffffff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 15px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .back-btn {
+      display: inline-block; background: #121420; color: #ffffff; padding: 8px 15px;
+      border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: bold;
+      border: 1px solid rgba(255,255,255,0.15); margin-bottom: 15px; width: fit-content;
+    }
+    .back-btn:hover { background: #e50914; }
+    
+    .player-container {
+      width: 100%; aspect-ratio: 16/9; background: #000000; border-radius: 8px;
+      overflow: hidden; border: 1px solid rgba(255,255,255,0.15); margin-bottom: 15px;
+    }
+    iframe { width: 100%; height: 100%; border: none; }
+
+    .info-container { background: #121420; padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
+    .title { font-size: 20px; font-weight: bold; color: #ffffff; margin-bottom: 8px; }
+    .synopsis { font-size: 13px; color: #b3b3b3; line-height: 1.4; }
+
+    .footer { margin-top: auto; text-align: center; padding: 20px 0 10px 0; font-size: 11px; color: #8c92a4; line-height: 1.5; }
+    .triangle-seal { font-weight: bold; color: #ffcc00; letter-spacing: 1px; }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back-btn">← Volver al Inicio</a>
+
+  <div class="player-container">
+    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+  </div>
+
+  <div class="info-container">
+    <div class="title" id="mediaTitle">Cargando...</div>
+    <div class="synopsis" id="mediaSynopsis">Por favor espera un momento.</div>
+  </div>
+
+  <!-- FOOTER CON SELLO EN TRIÁNGULO -->
+  <div class="footer">
+    <p>Conocimiento y entretenimiento libre para todos.</p>
+    <p class="triangle-seal">
+      ▲<br>
+      Página patrocinada por ॐiluminati
+    </p>
+  </div>
+
+  <script>
+    async function cargarReproductor() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const mediaId = urlParams.get('id');
+
+      if (!mediaId) {
+        document.getElementById('mediaTitle').innerText = "Contenido no encontrado";
+        document.getElementById('mediaSynopsis').innerText = "Regresa al inicio y selecciona una película o serie válida.";
+        return;
+      }
+
+      try {
+        let respuesta = await fetch('catalogo.json?' + new Date().getTime());
+        let datos = await respuesta.json();
+        let item = datos.contenido.find(i => i.id === mediaId);
+
+        if (item) {
+          document.getElementById('mediaTitle').innerText = item.titulo;
+          document.getElementById('mediaSynopsis').innerText = item.sinopsis || "Sin sinopsis disponible.";
+          if (item.iframe) {
+            document.getElementById('videoPlayer').src = item.iframe;
+          }
+        } else {
+          document.getElementById('mediaTitle').innerText = "No disponible";
+          document.getElementById('mediaSynopsis').innerText = "El contenido solicitado ya no existe en el catálogo.";
+        }
+      } catch (error) {
+        console.error("Error al cargar el reproductor:", error);
+      }
+    }
+
+    cargarReproductor();
+  </script>
+</body>
+</html>
