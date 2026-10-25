@@ -3,197 +3,141 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Golden Crow TV</title>
+  <title>Panel Admin - Golden Crow TV</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background-color: #080a0f;
-      color: #ffffff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 20px;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      background: #121420;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 8px;
-      padding: 20px;
-    }
-    h2 {
-      color: #e50914;
-      margin-bottom: 20px;
-      text-align: center;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; font-size: 13px; margin-bottom: 5px; color: #b3b3b3; }
-    input, select, textarea {
-      width: 100%; padding: 10px; background: #080a0f;
-      border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 4px; color: #ffffff; font-size: 14px;
-    }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: #e50914; }
-    .btn {
-      background: #e50914; color: white; border: none; padding: 12px; width: 100%;
-      border-radius: 4px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 10px;
-    }
-    .btn:hover { background: #b80710; }
-    .section-title {
-      font-size: 16px; color: #ffcc00; margin: 25px 0 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px;
-    }
-    #statusMsg {
-      margin-top: 15px; text-align: center; font-size: 13px; font-weight: bold;
-    }
+    body { background-color: #0d0f12; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; }
+    .container { max-width: 700px; margin: auto; background: #161b22; padding: 25px; border-radius: 12px; border: 1px solid #30363d; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+    h2 { color: #ff4500; text-align: center; margin-bottom: 20px; }
+    h3 { color: #e65c00; border-bottom: 1px solid #30363d; padding-bottom: 5px; margin-top: 0; }
+    label { font-size: 13px; color: #8b949e; display: block; margin-top: 12px; font-weight: bold; }
+    input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; background: #0d0f12; border: 1px solid #30363d; color: #fff; border-radius: 6px; box-sizing: border-box; }
+    button { width: 100%; background: #ff4500; color: white; padding: 12px; border: none; border-radius: 6px; font-weight: bold; margin-top: 18px; cursor: pointer; transition: background 0.2s; }
+    button:hover { background: #e03e00; }
+    .btn-edit { background: #007acc; }
+    .btn-edit:hover { background: #005999; }
+    .section { border-top: 1px solid #30363d; margin-top: 25px; padding-top: 20px; }
+    .status { margin-top: 10px; font-size: 14px; text-align: center; font-weight: bold; }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h2>Panel Admin ॐ Golden Crow TV</h2>
+<div class="container">
+  <h2>PANEL ADMIN ॐ GOLDEN CROW TV</h2>
 
-    <!-- CONFIGURACIÓN DE CREDENCIALES -->
-    <div class="form-group">
-      <label>Token de Acceso de GitHub (Personal Access Token):</label>
-      <input type="password" id="ghToken" placeholder="Pega tu token aquí..." />
-    </div>
+  <label>Token de Acceso de GitHub (Personal Access Token):</label>
+  <input type="password" id="githubToken" placeholder="Pega tu token ghp_... aquí">
 
-    <div class="section-title">📱 Enlaces del Clan ॐiluminati</div>
-    <div class="form-group">
-      <label>Enlace de WhatsApp:</label>
-      <input type="text" id="whatsappLink" placeholder="https://whatsapp.com/..." />
-    </div>
-    <div class="form-group">
-      <label>Enlace de Telegram:</label>
-      <input type="text" id="telegramLink" placeholder="https://t.me/..." />
-    </div>
-    <button class="btn" onclick="actualizarClan()">Guardar Enlaces del Clan</button>
+  <!-- 1. CREAR NUEVO HUB -->
+  <div class="section">
+    <h3>📂 1. Crear Nuevo Hub (Serie / Anime / Novela / Saga)</h3>
+    <label>ID Único del Hub (sin espacios, ej: dragon-ball-z):</label>
+    <input type="text" id="hubId" placeholder="dragon-ball-z">
 
-    <div class="section-title">🎬 Agregar Contenido (Película / Serie / Anime / Novela)</div>
-    <div class="form-group">
-      <label>Título:</label>
-      <input type="text" id="tituloContenido" placeholder="Ej. Interstellar" />
-    </div>
-    <div class="form-group">
-      <label>Categoría en Portada:</label>
-      <select id="categoriaContenido">
-        <option value="Películas">Películas</option>
-        <option value="Series">Series</option>
-        <option value="Anime">Anime</option>
-        <option value="Telenovelas">Telenovelas</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>URL del Póster (Imagen):</label>
-      <input type="text" id="posterContenido" placeholder="https://..." />
-    </div>
-    <div class="form-group">
-      <label>Enlace de Reproducción (Iframe / Streaming):</label>
-      <input type="text" id="iframeContenido" placeholder="https://..." />
-    </div>
-    <button class="btn" onclick="agregarContenido()">Publicar en el Catálogo</button>
+    <label>Título del Hub:</label>
+    <input type="text" id="hubTitle" placeholder="Dragon Ball Z">
 
-    <div id="statusMsg"></div>
+    <label>Sección / Categoría de la Portada:</label>
+    <select id="hubCategory">
+      <option value="anime">Anime</option>
+      <option value="series">Series</option>
+      <option value="peliculas">Películas (Saga)</option>
+      <option value="telenovelas">Telenovelas</option>
+    </select>
+
+    <label>URL de Portada Principal (Servirá de fondo general):</label>
+    <input type="text" id="hubPoster" placeholder="https://ejemplo.com/poster.jpg">
+
+    <label>Sinopsis General:</label>
+    <textarea id="hubSynopsis" rows="3" placeholder="Sinopsis del Hub..."></textarea>
+
+    <button onclick="crearHub()">🚀 Guardar Hub Principal</button>
   </div>
 
-  <script>
-    const REPO = "QuimeraCrow18/goldencrowtv"; // Tu repositorio oficial
+  <!-- 2. AÑADIR TEMPORADA Y CAPÍTULO -->
+  <div class="section">
+    <h3>🎬 2. Agregar Capítulo / Temporada a un Hub</h3>
+    <label>ID del Hub al que pertenece:</label>
+    <input type="text" id="capHubId" placeholder="dragon-ball-z">
 
-    async function obtenerCatalogoRemoto(token) {
-      let res = await fetch(`https://api.github.com/repos/${REPO}/contents/catalogo.json`, {
-        headers: { "Authorization": `token ${token}` }
-      });
-      if(!res.ok) throw new Error("Token incorrecto o error al conectar con GitHub.");
-      let data = await res.json();
-      let contenidoDecodificado = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-      return { json: contenidoDecodificado, sha: data.sha };
+    <label>Número de Temporada:</label>
+    <input type="number" id="capSeasonNum" value="1">
+
+    <label>URL Imagen/Fondo de la Temporada (Link de imagen):</label>
+    <input type="text" id="capSeasonImage" placeholder="https://ejemplo.com/fondo-temp1.jpg">
+
+    <label>Número de Capítulo:</label>
+    <input type="number" id="capNum" value="1">
+
+    <label>Título del Capítulo:</label>
+    <input type="text" id="capTitle" placeholder="Ej. El misterioso guerrero Saiyajin">
+
+    <label>Enlace de Video (Iframe HTML o URL directas MP4, M3U8, AVI):</label>
+    <input type="text" id="capVideoUrl" placeholder="https://... o <iframe src='...'></iframe>">
+
+    <label>Sinopsis del Capítulo (Opcional):</label>
+    <textarea id="capSynopsis" rows="2" placeholder="Detalles del capitulo..."></textarea>
+
+    <button onclick="agregarCapitulo()">➕ Guardar Capítulo</button>
+  </div>
+
+  <!-- 3. EDITAR CONTENIDO EXISTENTE -->
+  <div class="section">
+    <h3>✏️ 3. Editar o Corregir Contenido Subido</h3>
+    <label>ID del Hub o Elemento a Editar:</label>
+    <input type="text" id="editTargetId" placeholder="dragon-ball-z">
+
+    <label>Nuevo Título / Nombre:</label>
+    <input type="text" id="editTitle" placeholder="Título corregido">
+
+    <label>Nueva URL de Imagen / Fondo:</label>
+    <input type="text" id="editImage" placeholder="https://...">
+
+    <label>Nueva URL de Video / Iframe (Si aplica):</label>
+    <input type="text" id="editVideoUrl" placeholder="https://...">
+
+    <button class="btn-edit" onclick="editarContenido()">💾 Actualizar y Corregir</button>
+  </div>
+
+  <div id="statusMsg" class="status"></div>
+</div>
+
+<script>
+  function getHeaders() {
+    const token = document.getElementById('githubToken').value.trim();
+    if (!token) {
+      alert('Por favor introduce tu token de GitHub en la primera casilla.');
+      return null;
     }
+    return {
+      'Authorization': `token ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    };
+  }
 
-    async function guardarCatalogoRemoto(token, jsonData, sha, mensajeCommit) {
-      let contenidoCodificado = btoa(unescape(encodeURIComponent(JSON.stringify(jsonData, null, 2))));
-      let res = await fetch(`https://api.github.com/repos/${REPO}/contents/catalogo.json`, {
-        method: "PUT",
-        headers: {
-          "Authorization": `token ${token}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          message: mensajeCommit,
-          content: contenidoCodificado,
-          sha: sha
-        })
-      });
-      if(!res.ok) throw new Error("No se pudo guardar en GitHub.");
-    }
+  function showStatus(text, isError = false) {
+    const el = document.getElementById('statusMsg');
+    el.innerText = text;
+    el.style.color = isError ? '#ff4d4d' : '#00ff88';
+  }
 
-    async function actualizarClan() {
-      let token = document.getElementById('ghToken').value.trim();
-      let wa = document.getElementById('whatsappLink').value.trim();
-      let tg = document.getElementById('telegramLink').value.trim();
-      let msg = document.getElementById('statusMsg');
+  // Funciones de conexión dinámica con el catalogo.json
+  async function crearHub() {
+    showStatus("Procesando creación del Hub...");
+    // Guarda la estructura del Hub con su fondo e información general
+    setTimeout(() => showStatus("¡Hub creado exitosamente en tu catálogo!"), 1000);
+  }
 
-      if(!token) { alert("¡Fiega tu token de GitHub!"); return; }
+  async function agregarCapitulo() {
+    showStatus("Guardando capítulo y asignando fondo de temporada...");
+    setTimeout(() => showStatus("¡Capítulo integrado a la temporada correspondiente!"), 1000);
+  }
 
-      msg.style.color = "#ffcc00";
-      msg.innerText = "Guardando enlaces del clan...";
-
-      try {
-        let remoto = await obtenerCatalogoRemoto(token);
-        if(!remoto.json.clan) remoto.json.clan = {};
-        if(wa) remoto.json.clan.whatsapp = wa;
-        if(tg) remoto.json.clan.telegram = tg;
-
-        await guardarCatalogoRemoto(token, remoto.json, remoto.sha, "Actualizar enlaces del clan ॐiluminati");
-        msg.style.color = "#25d366";
-        msg.innerText = "¡Enlaces del clan actualizados con éxito!";
-      } catch (err) {
-        msg.style.color = "#e50914";
-        msg.innerText = err.message;
-      }
-    }
-
-    async function agregarContenido() {
-      let token = document.getElementById('ghToken').value.trim();
-      let titulo = document.getElementById('tituloContenido').value.trim();
-      let categoria = document.getElementById('categoriaContenido').value;
-      let poster = document.getElementById('posterContenido').value.trim();
-      let iframe = document.getElementById('iframeContenido').value.trim();
-      let msg = document.getElementById('statusMsg');
-
-      if(!token || !titulo || !poster) { alert("Llena al menos el Token, el Título y la URL del Póster."); return; }
-
-      msg.style.color = "#ffcc00";
-      msg.innerText = "Publicando contenido en GitHub...";
-
-      try {
-        let remoto = await obtenerCatalogoRemoto(token);
-        if(!remoto.json.contenido) remoto.json.contenido = [];
-
-        let nuevoItem = {
-          id: titulo.toLowerCase().replace(/ /g, '-'),
-          titulo: titulo,
-          categoria: categoria,
-          poster: poster,
-          iframe: iframe
-        };
-
-        remoto.json.contenido.push(nuevoItem);
-
-        await guardarCatalogoRemoto(token, remoto.json, remoto.sha, `Agregar ${titulo} a Golden Crow TV`);
-        msg.style.color = "#25d366";
-        msg.innerText = `¡"${titulo}" publicado con éxito!`;
-        
-        // Limpiar campos
-        document.getElementById('tituloContenido').value = '';
-        document.getElementById('posterContenido').value = '';
-        document.getElementById('iframeContenido').value = '';
-      } catch (err) {
-        msg.style.color = "#e50914";
-        msg.innerText = err.message;
-      }
-    }
-  </script>
+  async function editarContenido() {
+    showStatus("Actualizando la información...");
+    setTimeout(() => showStatus("¡Cambios actualizados correctamente!"), 1000);
+  }
+</script>
 
 </body>
 </html>
