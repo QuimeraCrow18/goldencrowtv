@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Golden Crow TV</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #080a0f;
+      color: #ffffff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #121420;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 20px;
+    }
+    h2 {
+      color: #e50914;
+      margin-bottom: 20px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 5px;
+      color: #b3b3b3;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      background: #080a0f;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      color: #ffffff;
+      font-size: 14px;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #e50914;
+    }
+    .btn {
+      background: #e50914;
+      color: white;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 4px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .btn:hover { background: #b80710; }
+    .section-title {
+      font-size: 16px;
+      color: #ffcc00;
+      margin: 25px 0 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 5px;
+    }
+    #statusMsg {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Panel Admin ॐ Golden Crow TV</h2>
+
+    <!-- CONFIGURACIÓN DE CREDENCIALES -->
+    <div class="form-group">
+      <label>Token de Acceso de GitHub (Personal Access Token):</label>
+      <input type="password" id="ghToken" placeholder="Pega tu token aquí..." />
+    </div>
+
+    <div class="section-title">📱 Enlaces del Clan ॐiluminati</div>
+    <div class="form-group">
+      <label>Enlace de WhatsApp:</label>
+      <input type="text" id="whatsappLink" placeholder="https://whatsapp.com/..." />
+    </div>
+    <div class="form-group">
+      <label>Enlace de Telegram:</label>
+      <input type="text" id="telegramLink" placeholder="https://t.me/..." />
+    </div>
+    <button class="btn" onclick="actualizarClan()">Guardar Enlaces del Clan</button>
+
+    <div class="section-title">🎬 Agregar Contenido (Película / Serie / Anime / Novela)</div>
+    <div class="form-group">
+      <label>Tipo de Contenido:</label>
+      <select id="tipoContenido">
+        <option value="pelicula">Película</option>
+        <option value="serie">Serie / Anime / Novela</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Título:</label>
+      <input type="text" id="tituloContenido" placeholder="Ej. Breaking Bad" />
+    </div>
+    <div class="form-group">
+      <label>Categoría en Portada:</label>
+      <select id="categoriaContenido">
+        <option value="Películas">Películas</option>
+        <option value="Series">Series</option>
+        <option value="Anime">Anime</option>
+        <option value="Telenovelas">Telenovelas</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>URL del Póster (Imagen):</label>
+      <input type="text" id="posterContenido" placeholder="https://..." />
+    </div>
+    <div class="form-group">
+      <label>Sinopsis:</label>
+      <textarea id="sinopsisContenido" rows="2" placeholder="Breve descripción..."></textarea>
+    </div>
+    <button class="btn" onclick="agregarContenido()">Publicar en el Catálogo</button>
+
+    <div id="statusMsg"></div>
+  </div>
+
+  <script>
+    // Lógica básica de conexión con GitHub API se integrará aquí en el siguiente ajuste fino.
+    function actualizarClan() {
+      alert("Función de enlace al clan lista para conectar con GitHub.");
+    }
+    function agregarContenido() {
+      alert("Función para agregar contenido lista para conectar con GitHub.");
+    }
+  </script>
+
+</body>
+</html>
