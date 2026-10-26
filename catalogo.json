@@ -93,7 +93,20 @@
       "category": "peliculas",
       "poster": "https://imgs.search.brave.com/_hE8pIBrPHuUG5qV02FmeSJXqriOlWW4oOgV4jPX8rI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS50aGVtb3ZpZWRi/Lm9yZy90L3AvdzIy/MF9hbmRfaDMzMF9m/YWNlL3Mxa1hGdXpJ/Wk8zck5kNDltd1pD/OTcxRnpueS5qcGc",
       "synopsis": "Colección completa de las películas de acción protagonizadas por los detectives Mike Lowrey y Marcus Burnett.",
-      "seasons": []
+      "seasons": [
+        {
+          "season": 1,
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx51Pfh2AFQGEnLDXAmIgtzSrF-ZyAWfGzELynEN1FGw&s=10",
+          "episodes": [
+            {
+              "episode": 3,
+              "title": "Bad Boys para siempre (Bad Boys 3)",
+              "videoUrl": "<iframe src=\"https://streamtape.com/e/V8WVaRD7jYiKpQ2/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
+              "synopsis": "Los detectives Mike Lowrey y Marcus Burnett vuelven a unirse para derrotar al líder de un cartel de drogas en Miami, Armando Armas."
+            }
+          ]
+        }
+      ]
     }
   ]
 }
