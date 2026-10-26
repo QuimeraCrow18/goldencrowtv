@@ -127,6 +127,14 @@
           ]
         }
       ]
+    },
+    {
+      "id": "escuadron-6",
+      "title": "Escuadrón 6",
+      "category": "peliculas",
+      "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSemm-RfsTjySPE_-0vyZXMFQQocUVsXyXdhn_LX6BCuQ&s=10",
+      "synopsis": "Seis inadaptados de todo el mundo, cada uno el mejor en lo suyo, han sido elegidos no solo por sus habilidades, sino por un deseo único en su pasado: borrar su historia para cambiar el futuro. Líderes de la justicia moderna, un grupo anónimo liderado por un enigmático multimillonario busca asegurarse de que, aunque ellos nunca sean recordados, sus acciones sí lo sean.",
+      "seasons": []
     }
   ]
 }
