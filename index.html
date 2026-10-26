@@ -52,7 +52,6 @@
       if (!res.ok) throw new Error("No se pudo cargar el catálogo");
       let data = await res.json();
       
-      // Normalizar estructura si viene antigua
       let hubs = data.hubs || (Array.isArray(data) ? data : []);
       let sponsors = data.sponsors || [];
       let banners = data.banners || [];
@@ -68,7 +67,6 @@
     const container = document.getElementById('mainContainer');
     container.innerHTML = '';
 
-    // Agrupar por categorías
     const categorias = {
       'series': '📺 Series',
       'anime': '⚡ Anime',
@@ -91,8 +89,7 @@
           let card = document.createElement('div');
           card.className = 'card';
           card.onclick = () => {
-            // Aquí puedes redirigir a la vista del hub o temporada pasando el ID
-            alert(`Abriendo Hub: ${hub.title}`);
+            window.location.href = `hub.html?id=${hub.id}`;
           };
           card.innerHTML = `
             <img src="${hub.poster || 'https://via.placeholder.com/140x200'}" alt="${hub.title}">
@@ -104,7 +101,6 @@
       }
     }
 
-    // Cuadro de Honor (Patrocinadores)
     if (sponsors.length > 0) {
       let spSection = document.createElement('div');
       spSection.className = 'extra-section';
@@ -124,7 +120,6 @@
       container.appendChild(spSection);
     }
 
-    // Sección Clan CODM
     if (clan && clan.title) {
       let clanDiv = document.createElement('div');
       clanDiv.className = 'clan-box';
