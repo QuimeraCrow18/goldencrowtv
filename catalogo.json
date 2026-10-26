@@ -176,7 +176,20 @@
       "category": "peliculas",
       "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK7j0vVHGXxgtkfCqG7C5D2l8ENzpKBTuGxkjgcpnzXg&s=10",
       "synopsis": "Un veterano agente secreto inglés (Harry Hart) opera una organización de espionaje independiente y ultra secreta, y recluta a un joven un tanto callejero pero prometedor (Eggsy) para el programa de entrenamiento de la agencia en un momento en que una amenaza global emerge de la mano de un brillante genio tecnológico.",
-      "seasons": []
+      "seasons": [
+        {
+          "season": 1,
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK7j0vVHGXxgtkfCqG7C5D2l8ENzpKBTuGxkjgcpnzXg&s=10",
+          "episodes": [
+            {
+              "episode": 1,
+              "title": "Kingsman: El Servicio Secreto (Película Completa)",
+              "videoUrl": "<iframe src=\"https://streamtape.com/e/xeDz1prMp9skePO/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
+              "synopsis": "Película completa en alta definición."
+            }
+          ]
+        }
+      ]
     }
   ]
 }
