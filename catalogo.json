@@ -114,7 +114,20 @@
       "category": "peliculas",
       "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7QNnRY0Etd-RmU_bzdqqKyRhMfteWaew05f2RdnPrNA&s=10",
       "synopsis": "La épica historia de tres parientes chicanos que crecen juntos en el Este de Los Ángeles y cuyas vidas toman caminos totalmente distintos tras un violento incidente con una pandilla: uno se convierte en policía, otro en un respetado miembro de la mafia de La Eme en la prisión de San Quintín, y el tercero en un artista consumido por las adicciones.",
-      "seasons": []
+      "seasons": [
+        {
+          "season": 1,
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7QNnRY0Etd-RmU_bzdqqKyRhMfteWaew05f2RdnPrNA&s=10",
+          "episodes": [
+            {
+              "episode": 1,
+              "title": "Sangre por Sangre (Película Completa)",
+              "videoUrl": "<iframe src=\"https://streamtape.com/e/61OZbR06DrT9Bvp/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
+              "synopsis": "Película clásica completa en español latino."
+            }
+          ]
+        }
+      ]
     }
   ]
 }
