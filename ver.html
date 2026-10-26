@@ -5,91 +5,134 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reproductor - Golden Crow TV</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background-color: #080a0f;
-      color: #ffffff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 15px;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    .back-btn {
-      display: inline-block; background: #121420; color: #ffffff; padding: 8px 15px;
-      border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: bold;
-      border: 1px solid rgba(255,255,255,0.15); margin-bottom: 15px; width: fit-content;
-    }
-    .back-btn:hover { background: #e50914; }
+    body { background-color: #0d0f12; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+    header { background: #161b22; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; }
+    h1 { color: #ff4500; margin: 0; font-size: 22px; cursor: pointer; }
+    .container { max-width: 900px; margin: auto; padding: 20px; }
     
-    .player-container {
-      width: 100%; aspect-ratio: 16/9; background: #000000; border-radius: 8px;
-      overflow: hidden; border: 1px solid rgba(255,255,255,0.15); margin-bottom: 15px;
-    }
-    iframe { width: 100%; height: 100%; border: none; }
-
-    .info-container { background: #121420; padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
-    .title { font-size: 20px; font-weight: bold; color: #ffffff; margin-bottom: 8px; }
-    .synopsis { font-size: 13px; color: #b3b3b3; line-height: 1.4; }
-
-    .footer { margin-top: auto; text-align: center; padding: 20px 0 10px 0; font-size: 11px; color: #8c92a4; line-height: 1.5; }
-    .triangle-seal { font-weight: bold; color: #ffcc00; letter-spacing: 1px; }
+    .player-box { background: #000; border-radius: 10px; overflow: hidden; border: 1px solid #30363d; box-shadow: 0 4px 20px rgba(0,0,0,0.8); position: relative; width: 100%; min-height: 400px; display: flex; justify-content: center; align-items: center; }
+    .player-box iframe, .player-box video { width: 100%; height: 500px; border: none; }
+    
+    .details-box { background: #161b22; margin-top: 20px; padding: 20px; border-radius: 10px; border: 1px solid #30363d; background-size: cover; background-position: center; position: relative; }
+    .details-overlay { background: rgba(22, 27, 34, 0.88); padding: 15px; border-radius: 8px; }
+    
+    .ep-title { color: #ff4500; font-size: 22px; margin-top: 0; margin-bottom: 8px; }
+    .ep-meta { font-size: 13px; color: #8b949e; margin-bottom: 12px; }
+    .ep-synopsis { font-size: 14px; color: #c9d1d9; line-height: 1.5; }
+    
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+    .btn { background: #30363d; color: #fff; text-decoration: none; padding: 10px 18px; border-radius: 6px; font-weight: bold; font-size: 14px; border: none; cursor: pointer; transition: background 0.2s; }
+    .btn:hover { background: #ff4500; }
+    
+    .sponsor-footer { margin-top: 30px; text-align: center; color: #8b949e; font-size: 12px; border-top: 1px solid #30363d; padding-top: 15px; }
+    .sponsor-footer span { color: #d4af37; font-weight: bold; }
   </style>
 </head>
 <body>
 
-  <a href="index.html" class="back-btn">← Volver al Inicio</a>
-
-  <div class="player-container">
-    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+<header>
+  <h1 onclick="window.location.href='index.html'">ॐ GOLDEN CROW TV</h1>
+  <div>
+    <button class="btn" id="btnVolverHub">← Volver al Hub</button>
   </div>
+</header>
 
-  <div class="info-container">
-    <div class="title" id="mediaTitle">Cargando...</div>
-    <div class="synopsis" id="mediaSynopsis">Por favor espera un momento.</div>
-  </div>
+<div class="container" id="playerContainer">
+  <p style="text-align: center; color: #8b949e;">Cargando reproductor...</p>
+</div>
 
-  <!-- FOOTER CON SELLO EN TRIÁNGULO -->
-  <div class="footer">
-    <p>Conocimiento y entretenimiento libre para todos.</p>
-    <p class="triangle-seal">
-      ▲<br>
-      Página patrocinada por ॐiluminati
-    </p>
-  </div>
+<script>
+  const REPO_OWNER = "quimeracrow18";
+  const REPO_NAME = "goldencrowtv";
+  const FILE_PATH = "catalogo.json";
 
-  <script>
-    async function cargarReproductor() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const mediaId = urlParams.get('id');
+  const urlParams = new URLSearchParams(window.location.search);
+  const hubId = urlParams.get('id');
+  const seasonNum = parseInt(urlParams.get('s'));
+  const epNum = parseInt(urlParams.get('e'));
 
-      if (!mediaId) {
-        document.getElementById('mediaTitle').innerText = "Contenido no encontrado";
-        document.getElementById('mediaSynopsis').innerText = "Regresa al inicio y selecciona una película o serie válida.";
+  async function cargarReproductor() {
+    if (!hubId || isNaN(seasonNum) || isNaN(epNum)) {
+      document.getElementById('playerContainer').innerHTML = `<p style="text-align: center; color: #ff4d4d;">Faltan parámetros de video en la URL.</p>`;
+      return;
+    }
+
+    // Configurar botón de regreso
+    document.getElementById('btnVolverHub').onclick = () => {
+      window.location.href = `hub.html?id=${hubId}`;
+    };
+
+    try {
+      let res = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}?t=${Date.now()}`);
+      if (!res.ok) throw new Error("No se pudo conectar al catálogo");
+      let data = await res.json();
+
+      let hubs = data.hubs || (Array.isArray(data) ? data : []);
+      let hub = hubs.find(h => h.id === hubId);
+
+      if (!hub) {
+        document.getElementById('playerContainer').innerHTML = `<p style="text-align: center; color: #ff4d4d;">Contenido no encontrado.</p>`;
         return;
       }
 
-      try {
-        let respuesta = await fetch('catalogo.json?' + new Date().getTime());
-        let datos = await respuesta.json();
-        let item = datos.contenido.find(i => i.id === mediaId);
+      let temporada = hub.seasons ? hub.seasons.find(s => s.season === seasonNum) : null;
+      let episodio = temporada ? temporada.episodes.find(e => e.episode === epNum) : null;
 
-        if (item) {
-          document.getElementById('mediaTitle').innerText = item.titulo;
-          document.getElementById('mediaSynopsis').innerText = item.sinopsis || "Sin sinopsis disponible.";
-          if (item.iframe) {
-            document.getElementById('videoPlayer').src = item.iframe;
-          }
-        } else {
-          document.getElementById('mediaTitle').innerText = "No disponible";
-          document.getElementById('mediaSynopsis').innerText = "El contenido solicitado ya no existe en el catálogo.";
-        }
-      } catch (error) {
-        console.error("Error al cargar el reproductor:", error);
+      if (!episodio) {
+        document.getElementById('playerContainer').innerHTML = `<p style="text-align: center; color: #ff4d4d;">El episodio solicitado no está disponible.</p>`;
+        return;
       }
+
+      renderizarReproductor(hub, temporada, episodio);
+    } catch (e) {
+      document.getElementById('playerContainer').innerHTML = `<p style="text-align: center; color: #ff4d4d;">Error al cargar el video.</p>`;
+    }
+  }
+
+  function renderizarReproductor(hub, temporada, episodio) {
+    const container = document.getElementById('playerContainer');
+
+    // Procesar el enlace/iframe
+    let videoMarkup = '';
+    let url = episodio.videoUrl.trim();
+
+    if (url.startsWith('<iframe')) {
+      videoMarkup = url;
+    } else if (url.endsWith('.mp4') || url.endsWith('.m3u8') || url.endsWith('.webm')) {
+      videoMarkup = `<video controls autoplay><source src="${url}" type="video/mp4">Tu navegador no soporta el reproductor.</video>`;
+    } else {
+      videoMarkup = `<iframe src="${url}" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0"></iframe>`;
     }
 
-    cargarReproductor();
-  </script>
+    const bgImage = (temporada && temporada.image) ? temporada.image : (hub.poster || '');
+
+    container.innerHTML = `
+      <div class="player-box">
+        ${videoMarkup}
+      </div>
+
+      <div class="details-box" style="background-image: url('${bgImage}');">
+        <div class="details-overlay">
+          <h2 class="ep-title">${episodio.title || `Capítulo ${episodio.episode}`}</h2>
+          <div class="ep-meta">${hub.title} • Temporada ${temporada.season} • Episodio ${episodio.episode}</div>
+          <p class="ep-synopsis">${episodio.synopsis || 'Sin descripción disponible para este episodio.'}</p>
+        </div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn" onclick="window.location.href='hub.html?id=${hub.id}'">📂 Ver todos los capítulos</button>
+        <button class="btn" onclick="window.location.href='index.html'">🏠 Inicio</button>
+      </div>
+
+      <div class="sponsor-footer">
+        Conocimiento y entretenimiento libre para todos. <br>
+        Página patrocinada por <span>ॐiluminati</span>
+      </div>
+    `;
+  }
+
+  cargarReproductor();
+</script>
+
 </body>
 </html>
