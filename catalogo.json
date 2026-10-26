@@ -107,6 +107,14 @@
           ]
         }
       ]
+    },
+    {
+      "id": "sangre-por-sangre",
+      "title": "Sangre por Sangre (Blood In, Blood Out)",
+      "category": "peliculas",
+      "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7QNnRY0Etd-RmU_bzdqqKyRhMfteWaew05f2RdnPrNA&s=10",
+      "synopsis": "La épica historia de tres parientes chicanos que crecen juntos en el Este de Los Ángeles y cuyas vidas toman caminos totalmente distintos tras un violento incidente con una pandilla: uno se convierte en policía, otro en un respetado miembro de la mafia de La Eme en la prisión de San Quintín, y el tercero en un artista consumido por las adicciones.",
+      "seasons": []
     }
   ]
 }
