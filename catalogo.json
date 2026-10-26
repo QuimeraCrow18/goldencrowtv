@@ -155,7 +155,20 @@
       "category": "peliculas",
       "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3cixLhFikcmyelC2JtyChX2RDVVYjIfyUtrHFqekcZg&s=10",
       "synopsis": "Los hermanos Templeton, Tim y su hermano pequeño Ted, se han convertido en adultos y se han distanciado. Pero un nuevo jefe en pañales con un enfoque vanguardista y una actitud can-do está a punto de reunirlos de nuevo y inspirar un nuevo negocio familiar.",
-      "seasons": []
+      "seasons": [
+        {
+          "season": 1,
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3cixLhFikcmyelC2JtyChX2RDVVYjIfyUtrHFqekcZg&s=10",
+          "episodes": [
+            {
+              "episode": 2,
+              "title": "Un Jefe en Pañales: Negocios de Familia (Película Completa)",
+              "videoUrl": "<iframe src=\"https://streamtape.com/e/Z1y18agwYKHq2B3/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
+              "synopsis": "Película completa en alta definición."
+            }
+          ]
+        }
+      ]
     }
   ]
 }
