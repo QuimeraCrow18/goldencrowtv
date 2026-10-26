@@ -51,7 +51,20 @@
       "category": "series",
       "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0zJLMFob4vB6RfnY3ymddvFVP8CeBDG3FTf-I_aO4TQ&s=10",
       "synopsis": "Sigue las desventuras de Rick, un científico loco, cínico y alcohólico, y su nieto Morty, un chico fácilmente influenciable, mientras viajan a través del espacio, dimensiones paralelas y realidades alternativas",
-      "seasons": []
+      "seasons": [
+        {
+          "season": 1,
+          "image": "",
+          "episodes": [
+            {
+              "episode": 1,
+              "title": "piloto",
+              "videoUrl": "<iframe src=\"https://streamtape.com/e/pLOY2j9kp8HrmY1/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
+              "synopsis": "En su primera aventura interdimensional, Rick arrastra a su nieto Morty a la Dimensión C-137 para conseguir unas valiosas semillas de Megafruta, desencadenando un caos total en la aduana interdimensional."
+            }
+          ]
+        }
+      ]
     }
   ]
 }
