@@ -65,6 +65,14 @@
           ]
         }
       ]
+    },
+    {
+      "id": "2012",
+      "title": "2012",
+      "category": "peliculas",
+      "poster": "https://m.media-amazon.com/images/M/MVBMTY0MjA1MDg3OV5BMl5BanBnXkFtZTcwNDM4MDcxMw@@._V1_.jpg",
+      "synopsis": "Un geólogo estadounidense descubre que el núcleo de la Tierra se está calentando debido a una tormenta solar masiva. Las profecías mayas parecen hacerse realidad cuando el planeta sufre cataclismos globales a escala bíblica, y la humanidad lucha por sobrevivir antes del fin del mundo.",
+      "seasons": []
     }
   ]
 }
