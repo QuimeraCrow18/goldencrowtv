@@ -17,8 +17,18 @@
         {
           "temporada": 1,
           "capitulos": [
-            { "num": 1, "titulo": "Piloto", "iframe": "https://example.com/embed/ep1", "descarga": "" },
-            { "num": 2, "titulo": "Césped Demencial", "iframe": "https://example.com/embed/ep2", "descarga": "" }
+            {
+              "num": 1,
+              "titulo": "Piloto",
+              "iframe": "https://example.com/embed/ep1",
+              "descarga": ""
+            },
+            {
+              "num": 2,
+              "titulo": "Césped Demencial",
+              "iframe": "https://example.com/embed/ep2",
+              "descarga": ""
+            }
           ]
         }
       ]
@@ -32,6 +42,16 @@
       "sinopsis": "El fin del mundo según el calendario maya.",
       "iframe": "https://example.com/embed/pelicula-2012",
       "descarga": ""
+    }
+  ],
+  "hubs": [
+    {
+      "id": "rick-y-morty",
+      "title": "Rick y Morty",
+      "category": "series",
+      "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0zJLMFob4vB6RfnY3ymddvFVP8CeBDG3FTf-I_aO4TQ&s=10",
+      "synopsis": "Sigue las desventuras de Rick, un científico loco, cínico y alcohólico, y su nieto Morty, un chico fácilmente influenciable, mientras viajan a través del espacio, dimensiones paralelas y realidades alternativas",
+      "seasons": []
     }
   ]
 }
