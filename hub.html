@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalles - Golden Crow TV</title>
+  <style>
+    body { background-color: #0d0f12; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+    header { background: #161b22; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; }
+    h1 { color: #ff4500; margin: 0; font-size: 22px; cursor: pointer; }
+    .container { max-width: 900px; margin: auto; padding: 30px 20px; }
+    .hub-header { display: flex; gap: 25px; align-items: flex-start; flex-wrap: wrap; background: #161b22; padding: 20px; border-radius: 10px; border: 1px solid #30363d; }
+    .hub-poster { width: 200px; height: 300px; object-fit: cover; border-radius: 8px; border: 1px solid #30363d; }
+    .hub-info { flex: 1; min-width: 250px; }
+    .hub-info h2 { margin-top: 0; color: #ff4500; font-size: 28px; }
+    .hub-info p { color: #8b949e; line-height: 1.6; font-size: 14px; }
+    
+    .season-section { margin-top: 40px; }
+    .season-title { color: #e65c00; font-size: 20px; border-bottom: 2px solid #30363d; padding-bottom: 5px; margin-bottom: 15px; }
+    .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+    .episode-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px; cursor: pointer; transition: transform 0.2s, border-color 0.2s; }
+    .episode-card:hover { transform: translateY(-3px); border-color: #ff4500; }
+    .episode-title { font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #f0f6fc; }
+    .episode-desc { font-size: 12px; color: #8b949e; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1 onclick="window.location.href='index.html'">ॐ GOLDEN CROW TV</h1>
+  <div>
+    <a href="index.html" style="color: #8b949e; text-decoration: none; font-size: 14px; font-weight: bold;">← Volver al Inicio</a>
+  </div>
+</header>
+
+<div class="container" id="hubContainer">
+  <p style="text-align: center; color: #8b949e;">Cargando información del contenido...</p>
+</div>
+
+<script>
+  const REPO_OWNER = "quimeracrow18";
+  const REPO_NAME = "goldencrowtv";
+  const FILE_PATH = "catalogo.json";
+
+  // Obtener el ID del Hub desde la URL (ej: hub.html?id=rick-y-morty)
+  const urlParams = new URLSearchParams(window.location.search);
+  const hubId = urlParams.get('id');
+
+  async function cargarDetalleHub() {
+    if (!hubId) {
+      document.getElementById('hubContainer').innerHTML = `<p style="text-align: center; color: #ff4d4d;">No se especificó ningún contenido.</p>`;
+      return;
+    }
+
+    try {
+      let res = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}?t=${Date.now()}`);
+      if (!res.ok) throw new Error("Error al conectar con el catálogo");
+      let data = await res.json();
+      
+      let hubs = data.hubs || (Array.isArray(data) ? data : []);
+      let hub = hubs.find(h => h.id === hubId);
+
+      if (!hub) {
+        document.getElementById('hubContainer').innerHTML = `<p style="text-align: center; color: #ff4d4d;">Contenido no encontrado en el catálogo.</p>`;
+        return;
+      }
+
+      renderizarHub(hub);
+    } catch (e) {
+      document.getElementById('hubContainer').innerHTML = `<p style="text-align: center; color: #ff4d4d;">Error al cargar los datos del servidor.</p>`;
+    }
+  }
+
+  function renderizarHub(hub) {
+    const container = document.getElementById('hubContainer');
+    
+    let html = `
+      <div class="hub-header">
+        <img src="${hub.poster || 'https://via.placeholder.com/200x300'}" alt="${hub.title}" class="hub-poster">
+        <div class="hub-info">
+          <h2>${hub.title}</h2>
+          <p><strong>Categoría:</strong> ${hub.category.toUpperCase()}</p>
+          <p>${hub.synopsis || 'Sin sinopsis disponible por el momento.'}</p>
+        </div>
+      </div>
+    `;
+
+    if (hub.seasons && hub.seasons.length > 0) {
+      hub.seasons.forEach(season => {
+        html += `
+          <div class="season-section">
+            <div class="season-title">Temporada ${season.season}</div>
+            <div class="episodes-grid">
+        `;
+        
+        season.episodes.forEach(ep => {
+          html += `
+            <div class="episode-card" onclick="verCapitulo('${hub.id}', ${season.season}, ${ep.episode})">
+              <div class="episode-title">${ep.episode}. ${ep.title}</div>
+              <div class="episode-desc">${ep.synopsis || 'Reproducir episodio...'}</div>
+            </div>
+          `;
+        });
+
+        html += `
+            </div>
+          </div>
+        `;
+      });
+    } else {
+      html += `<p style="text-align: center; color: #8b949e; margin-top: 40px;">Próximamente se agregarán temporadas y capítulos.</p>`;
+    }
+
+    container.innerHTML = html;
+  }
+
+  function verCapitulo(hubId, seasonNum, epNum) {
+    // Redirigirá a la página de reproducción que haremos a continuación
+    window.location.href = `ver.html?id=${hubId}&s=${seasonNum}&e=${epNum}`;
+  }
+
+  cargarDetalleHub();
+</script>
+
+</body>
+</html>
