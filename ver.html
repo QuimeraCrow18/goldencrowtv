@@ -3,135 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reproductor - Golden Crow TV</title>
+  <title>Reproductor - ॐ GOLDEN CROW TV</title>
   <style>
     body { background-color: #0d0f12; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-    header { background: #161b22; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; }
-    h1 { color: #ff4500; margin: 0; font-size: 22px; cursor: pointer; }
-    .container { max-width: 900px; margin: auto; padding: 20px; }
-    
-    .player-box { background: #000; border-radius: 10px; overflow: hidden; border: 1px solid #30363d; box-shadow: 0 4px 20px rgba(0,0,0,0.8); position: relative; width: 100%; min-height: 400px; display: flex; justify-content: center; align-items: center; }
-    .player-box iframe, .player-box video { width: 100%; height: 500px; border: none; }
-    
-    .details-box { background: #161b22; margin-top: 20px; padding: 20px; border-radius: 10px; border: 1px solid #30363d; background-size: cover; background-position: center; position: relative; }
-    .details-overlay { background: rgba(22, 27, 34, 0.88); padding: 15px; border-radius: 8px; }
-    
-    .ep-title { color: #ff4500; font-size: 22px; margin-top: 0; margin-bottom: 8px; }
-    .ep-meta { font-size: 13px; color: #8b949e; margin-bottom: 12px; }
-    .ep-synopsis { font-size: 14px; color: #c9d1d9; line-height: 1.5; }
-    
-    .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
-    .btn { background: #30363d; color: #fff; text-decoration: none; padding: 10px 18px; border-radius: 6px; font-weight: bold; font-size: 14px; border: none; cursor: pointer; transition: background 0.2s; }
-    .btn:hover { background: #ff4500; }
-    
-    .sponsor-footer { margin-top: 30px; text-align: center; color: #8b949e; font-size: 12px; border-top: 1px solid #30363d; padding-top: 15px; }
-    .sponsor-footer span { color: #d4af37; font-weight: bold; }
+    header { background: #161b22; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; }
+    h1 { color: #ff4500; margin: 0; font-size: 20px; cursor: pointer; }
+    .player-container { max-width: 960px; margin: 30px auto; padding: 0 15px; text-align: center; }
+    .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; border-radius: 10px; border: 1px solid #30363d; box-shadow: 0 4px 20px rgba(0,0,0,0.8); }
+    .video-wrapper iframe, .video-wrapper video, .video-wrapper object, .video-wrapper embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+    .info-box { background: #161b22; padding: 20px; border-radius: 10px; margin-top: 20px; border: 1px solid #30363d; text-align: left; }
+    .info-box h2 { color: #ff4500; margin-top: 0; font-size: 22px; }
+    .btn-back { display: inline-block; background: #30363d; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 15px; transition: 0.2s; }
+    .btn-back:hover { background: #484f58; }
   </style>
 </head>
 <body>
 
 <header>
   <h1 onclick="window.location.href='index.html'">ॐ GOLDEN CROW TV</h1>
-  <div>
-    <button class="btn" id="btnVolverHub">← Volver al Hub</button>
-  </div>
+  <a href="index.html" style="color: #c9d1d9; text-decoration: none; font-size: 14px; font-weight: bold;">Volver al Inicio</a>
 </header>
 
-<div class="container" id="playerContainer">
-  <p style="text-align: center; color: #8b949e;">Cargando reproductor...</p>
+<div class="player-container">
+  <div id="playerWrapper" class="video-wrapper">
+    <p style="padding-top: 20%; color: #8b949e;">Cargando reproductor...</p>
+  </div>
+  
+  <div class="info-box" id="infoBox">
+    <h2>Cargando información...</h2>
+  </div>
 </div>
 
 <script>
-  const REPO_OWNER = "quimeracrow18";
-  const REPO_NAME = "goldencrowtv";
-  const FILE_PATH = "catalogo.json";
+  async function reproducirContenido() {
+    const params = new URLSearchParams(window.location.search);
+    const hubId = params.get('id');
+    const seasonNum = parseInt(params.get('s')) || 1;
+    const epNum = parseInt(params.get('e')) || 1;
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const hubId = urlParams.get('id');
-  const seasonNum = parseInt(urlParams.get('s'));
-  const epNum = parseInt(urlParams.get('e'));
-
-  async function cargarReproductor() {
-    if (!hubId || isNaN(seasonNum) || isNaN(epNum)) {
-      document.getElementById('playerContainer').innerHTML = `<p style="text-align: center; color: #ff4d4d;">Faltan parámetros de video en la URL.</p>`;
-      return;
-    }
-
-    // Configurar botón de regreso
-    document.getElementById('btnVolverHub').onclick = () => {
-      window.location.href = `hub.html?id=${hubId}`;
-    };
+    const wrapper = document.getElementById('playerWrapper');
+    const infoBox = document.getElementById('infoBox');
 
     try {
-      let res = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}?t=${Date.now()}`);
-      if (!res.ok) throw new Error("No se pudo conectar al catálogo");
-      let data = await res.json();
-
-      let hubs = data.hubs || (Array.isArray(data) ? data : []);
-      let hub = hubs.find(h => h.id === hubId);
+      const res = await fetch('catalogo.json?t=' + Date.now());
+      const data = await res.json();
+      const hubs = data.hubs || data;
+      const hub = hubs.find(h => h.id === hubId);
 
       if (!hub) {
-        document.getElementById('playerContainer').innerHTML = `<p style="text-align: center; color: #ff4d4d;">Contenido no encontrado.</p>`;
+        wrapper.innerHTML = '<p style="padding-top: 20%; color: #ff4d4d;">Contenido no encontrado.</p>';
         return;
       }
 
-      let temporada = hub.seasons ? hub.seasons.find(s => s.season === seasonNum) : null;
-      let episodio = temporada ? temporada.episodes.find(e => e.episode === epNum) : null;
+      let temporada = hub.seasons.find(s => s.season === seasonNum);
+      if (!temporada) temporada = hub.seasons[0];
 
-      if (!episodio) {
-        document.getElementById('playerContainer').innerHTML = `<p style="text-align: center; color: #ff4d4d;">El episodio solicitado no está disponible.</p>`;
+      let episodio = temporada.episodes.find(e => (e.episode === epNum || e.num === epNum));
+      if (!episodio) episodio = temporada.episodes[0];
+
+      if (!episodio || !episodio.videoUrl) {
+        wrapper.innerHTML = '<p style="padding-top: 20%; color: #ff4d4d;">No hay enlace de video disponible para este contenido.</p>';
         return;
       }
 
-      renderizarReproductor(hub, temporada, episodio);
-    } catch (e) {
-      document.getElementById('playerContainer').innerHTML = `<p style="text-align: center; color: #ff4d4d;">Error al cargar el video.</p>`;
-    }
-  }
+      // Inyectar video o iframe universal
+      if (episodio.videoUrl.trim().startsWith('<iframe')) {
+        wrapper.innerHTML = episodio.videoUrl;
+      } else {
+        wrapper.innerHTML = `<iframe src="${episodio.videoUrl}" allowfullscreen></iframe>`;
+      }
 
-  function renderizarReproductor(hub, temporada, episodio) {
-    const container = document.getElementById('playerContainer');
+      // Inyectar información y botones de descarga si los tiene
+      let botonDescarga = episodio.downloadUrl ? `<a href="${episodio.downloadUrl}" target="_blank" style="background: #238636; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin-top: 15px; margin-left: 10px;">📥 Descargar (TeraBox)</a>` : '';
 
-    // Procesar el enlace/iframe
-    let videoMarkup = '';
-    let url = episodio.videoUrl.trim();
-
-    if (url.startsWith('<iframe')) {
-      videoMarkup = url;
-    } else if (url.endsWith('.mp4') || url.endsWith('.m3u8') || url.endsWith('.webm')) {
-      videoMarkup = `<video controls autoplay><source src="${url}" type="video/mp4">Tu navegador no soporta el reproductor.</video>`;
-    } else {
-      videoMarkup = `<iframe src="${url}" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0"></iframe>`;
-    }
-
-    const bgImage = (temporada && temporada.image) ? temporada.image : (hub.poster || '');
-
-    container.innerHTML = `
-      <div class="player-box">
-        ${videoMarkup}
-      </div>
-
-      <div class="details-box" style="background-image: url('${bgImage}');">
-        <div class="details-overlay">
-          <h2 class="ep-title">${episodio.title || `Capítulo ${episodio.episode}`}</h2>
-          <div class="ep-meta">${hub.title} • Temporada ${temporada.season} • Episodio ${episodio.episode}</div>
-          <p class="ep-synopsis">${episodio.synopsis || 'Sin descripción disponible para este episodio.'}</p>
+      infoBox.innerHTML = `
+        <h2>${hub.title} - T${seasonNum} : E${epNum} ${episodio.title ? '- ' + episodio.title : ''}</h2>
+        <p>${episodio.synopsis || hub.synopsis || 'Disfruta de este contenido en alta calidad sin anuncios molestos.'}</p>
+        <div style="margin-top: 15px;">
+          <a href="hub.html?id=${hub.id}" class="btn-back">⬅ Volver al Menú del Título</a>
+          ${botonDescarga}
         </div>
-      </div>
+      `;
 
-      <div class="nav-buttons">
-        <button class="btn" onclick="window.location.href='hub.html?id=${hub.id}'">📂 Ver todos los capítulos</button>
-        <button class="btn" onclick="window.location.href='index.html'">🏠 Inicio</button>
-      </div>
-
-      <div class="sponsor-footer">
-        Conocimiento y entretenimiento libre para todos. <br>
-        Página patrocinada por <span>ॐiluminati</span>
-      </div>
-    `;
+    } catch (e) {
+      wrapper.innerHTML = '<p style="padding-top: 20%; color: #ff4d4d;">Error al cargar el reproductor.</p>';
+    }
   }
 
-  cargarReproductor();
+  reproducirContenido();
 </script>
 
 </body>
