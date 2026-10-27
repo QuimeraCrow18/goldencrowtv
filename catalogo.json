@@ -4,62 +4,24 @@
     "desc": "🔥 ¿BUSCAS UN CLAN ACTIVO, COMPETITIVO Y CON BUEN AMBIENTE EN COD MOBILE? 🔥\n\nEn ॐiluminati no solo jugamos, dominamos el campo de batalla. Estamos reclutando soldados apasionados que quieran crecer, participar en partidas comunitarias y formar parte de una verdadera familia gamer.\n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n💥 ¿QUÉ OFRECEMOS? 💥\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n👥 Comunidad activa y respetuosa\n🎮 Salas privadas, partidas en equipo y BR/MJ\n📱 Plataforma propia con contenido exclusivo (Golden Crow TV)\n🚀 Apoyo para mejorar tu nivel y subir de rango\n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n⚠️ REQUISITOS BÁSICOS ⚠️\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n✔ Ser activo en el juego y en la comunidad\n✔ Respeto y buen compañerismo ante todo\n✔ Ganas de jugar en equipo y romperla en el mapa\n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n🌐 ¡ÚNETE A NUESTRAS REDES OFICIALES! 🌐\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n📲 Grupo de WhatsApp:\nhttps://chat.whatsapp.com/CLpRFtdRLN534Oo2nbUbKW?s=cl&p=a&mlu=4&ilr=4\n\n✈️ Canal de Telegram:\nhttps://t.me/+1pJWkg85jeRmYmUx\n\n⚡ ¡EL PODER ESTÁ EN LA UNIÓN! ÚNETE HOY MISMO A ॐiluminati Y DEMUESTRA DE QUÉ ESTÁS HECHO. ⚡",
     "link": "https://t.me/+1pJWkg85jeRmYmUx"
   },
-  "contenido": [
-    {
-      "id": "rick-y-morty",
-      "titulo": "Rick y Morty",
-      "tipo": "serie",
-      "categoria": "Series",
-      "poster": "https://i.pinimg.com/736x/1d/34/40/1d3440b88ae169ae134643005e5215de.jpg",
-      "sinopsis": "Las locas aventuras de un científico loco y su nieto.",
-      "temporadas": [
-        {
-          "temporada": 1,
-          "capitulos": [
-            {
-              "num": 1,
-              "titulo": "Piloto",
-              "iframe": "https://example.com/embed/ep1",
-              "descarga": ""
-            },
-            {
-              "num": 2,
-              "titulo": "Césped Demencial",
-              "iframe": "https://example.com/embed/ep2",
-              "descarga": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2012",
-      "titulo": "2012",
-      "tipo": "pelicula",
-      "categoria": "Películas",
-      "poster": "https://media.themoviedb.org/t/p/w130_and_h195_face/iUe4RD54SffgmRxGaQf26NZ04rJ.jpg",
-      "sinopsis": "El fin del mundo según el calendario maya.",
-      "iframe": "https://example.com/embed/pelicula-2012",
-      "descarga": ""
-    }
-  ],
   "hubs": [
     {
       "id": "rick-y-morty",
       "title": "Rick y Morty",
       "category": "series",
-      "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0zJLMFob4vB6RfnY3ymddvFVP8CeBDG3FTf-I_aO4TQ&s=10",
-      "synopsis": "Sigue las desventuras de Rick, un científico loco, cínico y alcohólico, y su nieto Morty, un chico fácilmente influenciable, mientras viajan a través del espacio, dimensiones paralelas y realidades alternativas",
+      "poster": "https://i.pinimg.com/736x/1d/34/40/1d3440b88ae169ae134643005e5215de.jpg",
+      "synopsis": "Sigue las desventuras de Rick, un científico loco, cínico y alcohólico, y su nieto Morty, un chico fácilmente influenciable, mientras viajan a través del espacio, dimensiones paralelas y realidades alternativas.",
       "seasons": [
         {
           "season": 1,
-          "image": "",
+          "image": "https://i.pinimg.com/736x/1d/34/40/1d3440b88ae169ae134643005e5215de.jpg",
           "episodes": [
             {
               "episode": 1,
-              "title": "piloto",
+              "title": "Piloto",
               "videoUrl": "<iframe src=\"https://streamtape.com/e/pLOY2j9kp8HrmY1/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
-              "synopsis": "En su primera aventura interdimensional, Rick arrastra a su nieto Morty a la Dimensión C-137 para conseguir unas valiosas semillas de Megafruta, desencadenando un caos total en la aduana interdimensional."
+              "downloadUrl": "",
+              "synopsis": "En su primera aventura interdimensional, Rick arrastra a su nieto Morty a la Dimensión C-137 para conseguir unas valiosas semillas de Megafruta."
             }
           ]
         }
@@ -69,18 +31,19 @@
       "id": "2012",
       "title": "2012",
       "category": "peliculas",
-      "poster": "https://imgs.search.brave.com/_hE8pIBrPHuUG5qV02FmeSJXqriOlWW4oOgV4jPX8rI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS50aGVtb3ZpZWRi/Lm9yZy90L3AvdzIy/MF9hbmRfaDMzMF9m/YWNlL3Mxa1hGdXpJ/Wk8zck5kNDltd1pD/OTcxRnpueS5qcGc",
-      "synopsis": "Un geólogo estadounidense descubre que el núcleo de la Tierra se está calentando debido a una tormenta solar masiva. Las profecías mayas parecen hacerse realidad cuando el planeta sufre cataclismos globales a escala bíblica, y la humanidad lucha por sobrevivir antes del fin del mundo.",
+      "poster": "https://media.themoviedb.org/t/p/w130_and_h195_face/iUe4RD54SffgmRxGaQf26NZ04rJ.jpg",
+      "synopsis": "El fin del mundo según el calendario maya.",
       "seasons": [
         {
           "season": 1,
-          "image": "https://imgs.search.brave.com/_hE8pIBrPHuUG5qV02FmeSJXqriOlWW4oOgV4jPX8rI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS50aGVtb3ZpZWRi/Lm9yZy90L3AvdzIy/MF9hbmRfaDMzMF9m/YWNlL3Mxa1hGdXpJ/Wk8zck5kNDltd1pD/OTcxRnpueS5qcGc",
+          "image": "https://media.themoviedb.org/t/p/w130_and_h195_face/iUe4RD54SffgmRxGaQf26NZ04rJ.jpg",
           "episodes": [
             {
               "episode": 1,
-              "title": "2012 pelicula completa",
+              "title": "2012 Película Completa",
               "videoUrl": "<iframe src=\"https://streamtape.com/e/yGL6V92WKPf1qW6/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
-              "synopsis": "Un geólogo estadounidense descubre que el núcleo de la Tierra se está calentando debido a una tormenta solar masiva. Las profecías mayas parecen hacerse realidad cuando el planeta sufre cataclismos globales a escala bíblica, y la humanidad lucha por sobrevivir antes del fin del mundo"
+              "downloadUrl": "",
+              "synopsis": "Un geólogo estadounidense descubre que el núcleo de la Tierra se está calentando debido a una tormenta solar masiva."
             }
           ]
         }
@@ -101,7 +64,8 @@
               "episode": 3,
               "title": "Bad Boys para siempre (Bad Boys 3)",
               "videoUrl": "<iframe src=\"https://streamtape.com/e/V8WVaRD7jYiKpQ2/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
-              "synopsis": "Los detectives Mike Lowrey y Marcus Burnett vuelven a unirse para derrotar al líder de un cartel de drogas en Miami, Armando Armas."
+              "downloadUrl": "",
+              "synopsis": "Los detectives Mike Lowrey y Marcus Burnett vuelven a unirse para derrotar al líder de un cartel de drogas en Miami."
             }
           ]
         }
@@ -112,7 +76,7 @@
       "title": "Sangre por Sangre (Blood In, Blood Out)",
       "category": "peliculas",
       "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7QNnRY0Etd-RmU_bzdqqKyRhMfteWaew05f2RdnPrNA&s=10",
-      "synopsis": "La épica historia de tres parientes chicanos que crecen juntos en el Este de Los Ángeles y cuyas vidas toman caminos totalmente distintos tras un violento incidente con una pandilla: uno se convierte en policía, otro en un respetado miembro de la mafia de La Eme en la prisión de San Quintín, y el tercero en un artista consumido por las adicciones.",
+      "synopsis": "La épica historia de tres parientes chicanos que crecen juntos en el Este de Los Ángeles.",
       "seasons": [
         {
           "season": 1,
@@ -122,6 +86,7 @@
               "episode": 1,
               "title": "Sangre por Sangre (Película Completa)",
               "videoUrl": "<iframe src=\"https://streamtape.com/e/61OZbR06DrT9Bvp/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
+              "downloadUrl": "",
               "synopsis": "Película clásica completa en español latino."
             }
           ]
@@ -133,7 +98,7 @@
       "title": "Escuadrón 6",
       "category": "peliculas",
       "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSemm-RfsTjySPE_-0vyZXMFQQocUVsXyXdhn_LX6BCuQ&s=10",
-      "synopsis": "Seis inadaptados de todo el mundo, cada uno el mejor en lo suyo, han sido elegidos no solo por sus habilidades, sino por un deseo único en su pasado: borrar su historia para cambiar el futuro. Líderes de la justicia moderna, un grupo anónimo liderado por un enigmático multimillonario busca asegurarse de que, aunque ellos nunca sean recordados, sus acciones sí lo sean.",
+      "synopsis": "Seis inadaptados de todo el mundo, cada uno el mejor en lo suyo, han sido elegidos para borrar su historia.",
       "seasons": [
         {
           "season": 1,
@@ -143,6 +108,7 @@
               "episode": 1,
               "title": "Escuadrón 6 (Película Completa)",
               "videoUrl": "<iframe src=\"https://streamtape.com/e/A6KV9OLdwrSXdeG/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
+              "downloadUrl": "",
               "synopsis": "Película completa en alta definición."
             }
           ]
@@ -154,7 +120,7 @@
       "title": "Un Jefe en Pañales: coleccion de peliculas",
       "category": "peliculas",
       "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3cixLhFikcmyelC2JtyChX2RDVVYjIfyUtrHFqekcZg&s=10",
-      "synopsis": "Los hermanos Templeton, Tim y su hermano pequeño Ted, se han convertido en adultos y se han distanciado. Pero un nuevo jefe en pañales con un enfoque vanguardista y una actitud can-do está a punto de reunirlos de nuevo y inspirar un nuevo negocio familiar.",
+      "synopsis": "Los hermanos Templeton se han convertido en adultos y se han distanciado.",
       "seasons": [
         {
           "season": 1,
@@ -162,8 +128,9 @@
           "episodes": [
             {
               "episode": 2,
-              "title": "Un Jefe en Pañales: Negocios de Familia (Película Completa)",
+              "title": "Un Jefe en Pañales: Negocios de Familia",
               "videoUrl": "<iframe src=\"https://streamtape.com/e/Z1y18agwYKHq2B3/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
+              "downloadUrl": "",
               "synopsis": "Película completa en alta definición."
             }
           ]
@@ -175,7 +142,7 @@
       "title": "Kingsman: El Servicio Secreto",
       "category": "peliculas",
       "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK7j0vVHGXxgtkfCqG7C5D2l8ENzpKBTuGxkjgcpnzXg&s=10",
-      "synopsis": "Un veterano agente secreto inglés (Harry Hart) opera una organización de espionaje independiente y ultra secreta, y recluta a un joven un tanto callejero pero prometedor (Eggsy) para el programa de entrenamiento de la agencia en un momento en que una amenaza global emerge de la mano de un brillante genio tecnológico.",
+      "synopsis": "Un veterano agente secreto inglés opera una organización de espionaje independiente.",
       "seasons": [
         {
           "season": 1,
@@ -183,13 +150,17 @@
           "episodes": [
             {
               "episode": 1,
-              "title": "Kingsman: El Servicio Secreto (Película Completa)",
+              "title": "Kingsman: El Servicio Secreto",
               "videoUrl": "<iframe src=\"https://streamtape.com/e/xeDz1prMp9skePO/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
+              "downloadUrl": "",
               "synopsis": "Película completa en alta definición."
             }
           ]
         }
       ]
     }
-  ]
+  ],
+  "sponsors": [],
+  "banners": [],
+  "social": {}
 }
