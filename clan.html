@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clan ॐiluminati - Golden Crow TV</title>
+  <style>
+    body { background-color: #0d0f12; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+    header { background: #161b22; padding: 15px 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; gap: 15px; position: sticky; top: 0; z-index: 1000; }
+    h1 { color: #ff4500; margin: 0; font-size: 20px; cursor: pointer; }
+    nav { display: flex; gap: 15px; flex-wrap: wrap; align-items: center; }
+    nav a { color: #c9d1d9; text-decoration: none; font-size: 13px; font-weight: bold; transition: color 0.2s; }
+    nav a:hover { color: #ff4500; }
+
+    .container { max-width: 900px; margin: 30px auto; padding: 0 15px; }
+    .clan-banner { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 30px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
+    .clan-banner h2 { color: #8a2be2; font-size: 28px; margin-top: 0; }
+    .clan-desc { color: #c9d1d9; font-size: 14px; line-height: 1.6; white-space: pre-line; text-align: left; background: #0d0f12; padding: 20px; border-radius: 8px; border: 1px solid #30363d; margin-top: 20px; }
+
+    .section-title { color: #ff4500; border-bottom: 2px solid #30363d; padding-bottom: 8px; margin-top: 35px; font-size: 18px; text-transform: uppercase; }
+    
+    .roster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-top: 15px; }
+    .roster-card { background: #161b22; border: 1px solid #30363d; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold; color: #00ff88; font-size: 14px; }
+
+    .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; border-radius: 10px; border: 1px solid #30363d; margin-top: 15px; }
+    .video-wrapper iframe, .video-wrapper embed, .video-wrapper object { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+    .btn-join { display: inline-block; background: #25d366; color: #fff; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; margin-top: 25px; transition: 0.2s; }
+    .btn-join:hover { background: #20ba5a; }
+
+    .loading { text-align: center; color: #8b949e; padding: 50px; font-size: 16px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1 onclick="window.location.href='index.html'">ॐ GOLDEN CROW TV</h1>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="index.html#peliculas">Películas</a>
+    <a href="index.html#series">Series</a>
+    <a href="index.html#anime">Anime</a>
+    <a href="index.html#telenovelas">Telenovelas</a>
+    <a href="clan.html" style="color: #8a2be2;" class="active">🛡️ Clan</a>
+  </nav>
+</header>
+
+<div class="container" id="clanContainer">
+  <div class="loading">Cargando información del clan...</div>
+</div>
+
+<script>
+  async function cargarClan() {
+    const container = document.getElementById('clanContainer');
+    try {
+      const res = await fetch('catalogo.json?t=' + Date.now());
+      if (!res.ok) throw new Error('No se pudo cargar el catálogo.');
+      const data = await res.json();
+      
+      const clan = data.clan || {};
+
+      let html = `
+        <div class="clan-banner">
+          <h2>${clan.title || '🛡️ ॐiluminati CODM 🛡️'}</h2>
+          <div class="clan-desc">${clan.desc || 'Información de reclutamiento próximamente...'}</div>
+      `;
+
+      if (clan.link) {
+        html += `<a href="${clan.link}" target="_blank" class="btn-join">💬 Únete al Grupo Oficial</a>`;
+      }
+
+      html += `</div>`;
+
+      // Roster de jugadores
+      if (clan.roster) {
+        html += `<div class="section-title">🏆 Cuadro de Honor / Roster</div>`;
+        html += `<div class="roster-grid">`;
+        let jugadores = clan.roster.split(/,|\n/);
+        jugadores.forEach(j => {
+          let nombreLimpio = j.trim();
+          if (nombreLimpio) {
+            html += `<div class="roster-card">⚔️ ${nombreLimpio}</div>`;
+          }
+        });
+        html += `</div>`;
+      }
+
+      // Video destacado del Clan
+      if (clan.video) {
+        html += `<div class="section-title">🎥 Jugadas y Clips del Clan</div>`;
+        html += `<div class="video-wrapper">`;
+        if (clan.video.trim().startsWith('<iframe')) {
+          html += clan.video;
+        } else {
+          html += `<iframe src="${clan.video}" allowfullscreen></iframe>`;
+        }
+        html += `</div>`;
+      }
+
+      container.innerHTML = html;
+
+    } catch (e) {
+      container.innerHTML = '<div class="loading" style="color:#ff4d4d;">Error al cargar los datos del clan desde GitHub.</div>';
+    }
+  }
+
+  cargarClan();
+</script>
+
+</body>
+</html>
