@@ -146,7 +146,7 @@
       "seasons": [
         {
           "season": 1,
-          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK7j0vVHGXxgtkfCqG7C5D2l8ENzpKBTuGxkjgcpnzXg&s=10",
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzYvN7SC_UHE3WWQj5kfAcWUbWUz_TTyiLFJKdNygs5w&s=10",
           "episodes": [
             {
               "episode": 1,
@@ -154,6 +154,13 @@
               "videoUrl": "<iframe src=\"https://streamtape.com/e/xeDz1prMp9skePO/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
               "downloadUrl": "",
               "synopsis": "Película completa en alta definición."
+            },
+            {
+              "episode": 2,
+              "title": "Kingsman: El Círculo Dorado",
+              "videoUrl": "<iframe src=\"https://streamtape.com/e/6xMkWb2ol9CeKo/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
+              "downloadUrl": "",
+              "synopsis": "Cuando su cuartel general es destruido y el mundo es tomado como rehén, los Kingsman descubren una organización de espías aliada en los EE. UU."
             }
           ]
         }
