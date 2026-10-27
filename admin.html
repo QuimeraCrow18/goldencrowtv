@@ -11,7 +11,6 @@
     nav { display: flex; gap: 12px; flex-wrap: wrap; }
     nav a { color: #c9d1d9; text-decoration: none; font-size: 13px; font-weight: bold; transition: color 0.2s; }
     nav a:hover { color: #ff4500; }
-    nav a.active { color: #8a2be2; border-bottom: 2px solid #8a2be2; }
 
     .container { max-width: 850px; margin: 20px auto; background: #161b22; padding: 25px; border-radius: 12px; border: 1px solid #30363d; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
     h2 { color: #ff4500; text-align: center; margin-bottom: 20px; font-size: 22px; }
@@ -52,7 +51,6 @@
     <a href="index.html#anime">Anime</a>
     <a href="index.html#telenovelas">Telenovelas</a>
     <a href="clan.html">Únete al Clan</a>
-    <a href="admin.html" style="color:#ff4500;" class="active">⚙️ Admin</a>
   </nav>
 </header>
 
@@ -86,9 +84,9 @@
     <button onclick="procesarHub()">🚀 Guardar Hub Principal</button>
   </div>
 
-  <!-- 2. AGREGAR CAPÍTULO INTELIGENTE -->
+  <!-- 2. AGREGAR CAPÍTULO O CONTENIDO FLEXIBLE -->
   <div class="section">
-    <h3>🎬 2. Agregar Capítulo / Temporada a un Hub</h3>
+    <h3>🎬 2. Agregar Contenido / Capítulo (Enlaces Opcionales)</h3>
     <label>Selecciona el Hub Destino:</label>
     <select id="capHubSelect" onchange="autocompletarSugerenciaCapitulo()">
       <option value="">-- Carga primero tus datos con el botón de arriba --</option>
@@ -110,11 +108,16 @@
     <input type="text" id="capSeasonImage" placeholder="https://...">
     <label>Título del Capítulo / Película:</label>
     <input type="text" id="capTitle" placeholder="Ej. Capítulo 1 / Película Completa">
-    <label>Enlace de Video (Iframe o URL directa):</label>
-    <input type="text" id="capVideoUrl" placeholder="<iframe ...></iframe> o https://...">
+    
+    <label>🎥 Enlace de Reproducción Online (Opcional - Iframe o URL):</label>
+    <input type="text" id="capVideoUrl" placeholder="<iframe src='...'></iframe> o déjalo vacío si solo es descarga">
+
+    <label>📥 Enlace de Descarga (Opcional - TeraBox / Externo):</label>
+    <input type="text" id="capDownloadUrl" placeholder="https://terabox.com/s/... o déjalo vacío si solo es online">
+
     <label>Sinopsis del Capítulo (Opcional):</label>
     <textarea id="capSynopsis" rows="2" placeholder="Detalles de este capítulo..."></textarea>
-    <button onclick="procesarCapitulo()">➕ Guardar Capítulo</button>
+    <button onclick="procesarCapitulo()">➕ Guardar Contenido</button>
   </div>
 
   <!-- 3. EDITAR CONTENIDO EXISTENTE CON MINIATURAS -->
@@ -130,6 +133,14 @@
 
     <label>Nuevo Título del Hub:</label>
     <input type="text" id="editHubTitle">
+
+    <label>Nueva Categoría:</label>
+    <select id="editHubCategory">
+      <option value="peliculas">Películas</option>
+      <option value="series">Series</option>
+      <option value="anime">Anime</option>
+      <option value="telenovelas">Telenovelas</option>
+    </select>
 
     <label>Nueva URL Portada / Póster:</label>
     <input type="text" id="editHubPoster">
@@ -275,6 +286,7 @@
 
     document.getElementById('editHubId').value = hub.id;
     document.getElementById('editHubTitle').value = hub.title || '';
+    document.getElementById('editHubCategory').value = hub.category || 'peliculas';
     document.getElementById('editHubPoster').value = hub.poster || '';
     document.getElementById('editHubSynopsis').value = hub.synopsis || '';
   }
@@ -355,9 +367,11 @@
     const capNum = parseInt(document.getElementById('capNum').value) || 1;
     const capTitle = document.getElementById('capTitle').value.trim();
     const videoUrl = document.getElementById('capVideoUrl').value.trim();
+    const downloadUrl = document.getElementById('capDownloadUrl').value.trim();
     const synopsis = document.getElementById('capSynopsis').value.trim();
 
-    if (!hubId || !capTitle || !videoUrl) { alert('El Hub, Título de capítulo y Enlace de video son obligatorios.'); return; }
+    if (!hubId || !capTitle) { alert('El Hub y el Título del contenido son obligatorios.'); return; }
+    if (!videoUrl && !downloadUrl) { alert('Debes ingresar al menos un Enlace de Reproducción Online o un Enlace de Descarga.'); return; }
 
     let { data, sha } = await obtenerCatalogo(token);
     if (!data.hubs) data.hubs = [];
@@ -381,15 +395,17 @@
       if (!confirm(`El capítulo ${capNum} ya existe. ¿Deseas re-editarlo?`)) return;
       episodio.title = capTitle;
       episodio.videoUrl = videoUrl;
+      episodio.downloadUrl = downloadUrl;
       episodio.synopsis = synopsis;
     } else {
-      temporada.episodes.push({ episode: capNum, title: capTitle, videoUrl, synopsis });
+      temporada.episodes.push({ episode: capNum, title: capTitle, videoUrl, downloadUrl, synopsis });
     }
 
-    if (await guardarCatalogo(token, data, sha, `Capítulo ${capNum} guardado en ${hubId}`)) {
-      showStatus(`¡Éxito! Capítulo ${capNum} guardado y actualizado correctamente.`, "success");
+    if (await guardarCatalogo(token, data, sha, `Contenido ${capNum} guardado en ${hubId}`)) {
+      showStatus(`¡Éxito! Contenido guardado correctamente.`, "success");
       document.getElementById('capTitle').value = '';
       document.getElementById('capVideoUrl').value = '';
+      document.getElementById('capDownloadUrl').value = '';
       document.getElementById('capSynopsis').value = '';
       document.getElementById('capNum').value = capNum + 1;
       cargarDatosAdmin();
@@ -408,6 +424,7 @@
     if (!hub) { alert('Hub no encontrado.'); return; }
 
     hub.title = document.getElementById('editHubTitle').value.trim();
+    hub.category = document.getElementById('editHubCategory').value;
     hub.poster = document.getElementById('editHubPoster').value.trim();
     hub.synopsis = document.getElementById('editHubSynopsis').value.trim();
 
