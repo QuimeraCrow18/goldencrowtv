@@ -88,7 +88,7 @@
 
   <!-- 2. AGREGAR CAPÍTULO O CONTENIDO FLEXIBLE -->
   <div class="section">
-    <h3>🎬 2. Agregar Contenido / Capítulo (Enlaces Opcionales)</h3>
+    <h3>🎬 2. Agregar Contenido / Capítulo / Temporadas</h3>
     <label>Selecciona el Hub Destino:</label>
     <select id="capHubSelect" onchange="autocompletarSugerenciaCapitulo()">
       <option value="">-- Carga primero tus datos con el botón de arriba --</option>
@@ -119,7 +119,7 @@
 
     <label>Sinopsis del Capítulo (Opcional):</label>
     <textarea id="capSynopsis" rows="2" placeholder="Detalles de este capítulo..."></textarea>
-    <button onclick="procesarCapitulo()">➕ Guardar Contenido</button>
+    <button onclick="procesarCapitulo()">➕ Guardar Contenido / Capítulo</button>
   </div>
 
   <!-- 3. EDITAR CONTENIDO EXISTENTE CON MINIATURAS -->
@@ -169,7 +169,7 @@
     <button class="btn-clan" onclick="procesarClan()">🎮 Actualizar Datos del Clan</button>
   </div>
 
-  <!-- 5. REDES SOCIALES Y CANALES OFICIALES (WhatsApp, Telegram, YouTube, FB, IG, TikTok) -->
+  <!-- 5. REDES SOCIALES Y CANALES OFICIALES -->
   <div class="section">
     <h3>📱 5. Redes Sociales y Canales Oficiales</h3>
     <label>Enlace de WhatsApp (Grupo / Comunidad / Chat):</label>
@@ -263,7 +263,7 @@
 
   async function cargarDatosAdmin() {
     const token = document.getElementById('githubToken').value.trim();
-    if (!token) { alert('Por favor, ingresa tu Token de GitHub primero.'); return; }
+    if (!token) { alert('Por favor, ingresa tu Token de GitHub en el campo superior.'); return; }
     showStatus("Conectando con GitHub y cargando catálogo...", "warning");
     
     let { data } = await obtenerCatalogo(token);
@@ -411,6 +411,7 @@
     let { data, sha } = await obtenerCatalogo(token);
     if (!data.hubs) data.hubs = [];
 
+    // Búsqueda robusta por ID exacto o normalizado
     let hub = data.hubs.find(h => h.id === hubId || normalizarId(h.id) === hubId);
     if (!hub) { alert(`El Hub "${hubId}" no se encuentra en el catálogo. Créalo en la Sección 1.`); return; }
 
@@ -427,7 +428,6 @@
     let episodio = temporada.episodes.find(e => (e.episode === capNum || e.num === capNum));
 
     if (episodio) {
-      if (!confirm(`El capítulo ${capNum} ya existe. ¿Deseas re-editarlo?`)) return;
       episodio.title = capTitle;
       episodio.videoUrl = videoUrl;
       episodio.downloadUrl = downloadUrl;
@@ -437,7 +437,7 @@
     }
 
     if (await guardarCatalogo(token, data, sha, `Contenido ${capNum} guardado en ${hubId}`)) {
-      showStatus(`¡Éxito! Contenido guardado correctamente.`, "success");
+      showStatus(`¡Éxito! Contenido guardado y añadido a la temporada ${seasonNum}.`, "success");
       document.getElementById('capTitle').value = '';
       document.getElementById('capVideoUrl').value = '';
       document.getElementById('capDownloadUrl').value = '';
