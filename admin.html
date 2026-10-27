@@ -5,13 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel Admin - Golden Crow TV</title>
   <style>
-    body { background-color: #0d0f12; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; }
-    .container { max-width: 750px; margin: auto; background: #161b22; padding: 25px; border-radius: 12px; border: 1px solid #30363d; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-    h2 { color: #ff4500; text-align: center; margin-bottom: 20px; }
-    h3 { color: #e65c00; border-bottom: 1px solid #30363d; padding-bottom: 5px; margin-top: 0; }
-    label { font-size: 13px; color: #8b949e; display: block; margin-top: 12px; font-weight: bold; }
-    input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; background: #0d0f12; border: 1px solid #30363d; color: #fff; border-radius: 6px; box-sizing: border-box; }
-    button { width: 100%; background: #ff4500; color: white; padding: 12px; border: none; border-radius: 6px; font-weight: bold; margin-top: 18px; cursor: pointer; transition: background 0.2s; }
+    body { background-color: #0d0f12; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+    header { background: #161b22; padding: 15px 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; gap: 10px; }
+    h1 { color: #ff4500; margin: 0; font-size: 20px; cursor: pointer; }
+    nav { display: flex; gap: 12px; flex-wrap: wrap; }
+    nav a { color: #c9d1d9; text-decoration: none; font-size: 13px; font-weight: bold; transition: color 0.2s; }
+    nav a:hover { color: #ff4500; }
+    nav a.active { color: #8a2be2; border-bottom: 2px solid #8a2be2; }
+
+    .container { max-width: 850px; margin: 20px auto; background: #161b22; padding: 25px; border-radius: 12px; border: 1px solid #30363d; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+    h2 { color: #ff4500; text-align: center; margin-bottom: 20px; font-size: 22px; }
+    h3 { color: #e65c00; border-bottom: 1px solid #30363d; padding-bottom: 5px; margin-top: 0; font-size: 16px; }
+    label { font-size: 12px; color: #8b949e; display: block; margin-top: 12px; font-weight: bold; }
+    input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; background: #0d0f12; border: 1px solid #30363d; color: #fff; border-radius: 6px; box-sizing: border-box; font-size: 13px; }
+    button { width: 100%; background: #ff4500; color: white; padding: 12px; border: none; border-radius: 6px; font-weight: bold; margin-top: 18px; cursor: pointer; transition: background 0.2s; font-size: 14px; }
     button:hover { background: #e03e00; }
     .btn-clan { background: #8a2be2; }
     .btn-clan:hover { background: #7b1fa2; }
@@ -24,121 +31,143 @@
     .success { background: rgba(0, 255, 136, 0.1); color: #00ff88; border: 1px solid #00ff88; }
     .warning { background: rgba(255, 165, 0, 0.1); color: #ffaa00; border: 1px solid #ffaa00; }
     .error { background: rgba(255, 77, 77, 0.1); color: #ff4d4d; border: 1px solid #ff4d4d; }
+
+    /* Cuadrícula de Selección por Miniaturas */
+    .hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 10px; max-height: 230px; overflow-y: auto; padding: 6px; background: #0d0f12; border: 1px solid #30363d; border-radius: 6px; }
+    .hub-card { background: #21262d; border: 2px solid transparent; border-radius: 6px; cursor: pointer; text-align: center; padding: 5px; transition: 0.2s; }
+    .hub-card:hover { border-color: #ff4500; }
+    .hub-card.selected { border-color: #00ff88; background: rgba(0, 255, 136, 0.1); }
+    .hub-card img { width: 100%; height: 95px; object-fit: cover; border-radius: 4px; }
+    .hub-card span { font-size: 11px; display: block; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #f0f6fc; }
   </style>
 </head>
 <body>
 
+<header>
+  <h1 onclick="window.location.href='index.html'">ॐ GOLDEN CROW TV</h1>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="index.html#peliculas">Películas</a>
+    <a href="index.html#series">Series</a>
+    <a href="index.html#anime">Anime</a>
+    <a href="index.html#telenovelas">Telenovelas</a>
+    <a href="clan.html" class="active">Únete al Clan</a>
+    <a href="admin.html" style="color:#ff4500;">⚙️ Admin</a>
+  </nav>
+</header>
+
 <div class="container">
   <h2>PANEL ADMIN ॐ GOLDEN CROW TV</h2>
 
-  <label>Token de Acceso de GitHub (Personal Access Token):</label>
+  <label>Token de Acceso de GitHub (Personal Access Token PAT):</label>
   <input type="password" id="githubToken" placeholder="Pega tu token ghp_... aquí" onchange="cargarDatosAdmin()">
 
   <!-- 1. CREAR NUEVO HUB -->
   <div class="section">
-    <h3>📂 1. Crear Nuevo Hub (Serie / Anime / Película / Novela)</h3>
-    <label>ID Único del Hub (sin espacios, ej: dragon-ball-z):</label>
-    <input type="text" id="hubId" placeholder="dragon-ball-z">
+    <h3>📂 1. Crear Nuevo Hub (Serie / Anime / Película / Telenovela)</h3>
+    <label>ID Único del Hub (se ajusta automáticamente):</label>
+    <input type="text" id="hubId" placeholder="ej: dragon-ball-z">
     <label>Título del Hub:</label>
-    <input type="text" id="hubTitle" placeholder="Dragon Ball Z">
+    <input type="text" id="hubTitle" placeholder="Ej. Dragon Ball Z">
     <label>Categoría:</label>
     <select id="hubCategory">
-      <option value="anime">Anime</option>
-      <option value="series">Series</option>
       <option value="peliculas">Películas</option>
+      <option value="series">Series</option>
+      <option value="anime">Anime</option>
       <option value="telenovelas">Telenovelas</option>
     </select>
-    <label>URL de Portada Principal (Fondo general):</label>
+    <label>URL de Portada Principal (Fondo / Póster):</label>
     <input type="text" id="hubPoster" placeholder="https://...">
     <label>Sinopsis General:</label>
-    <textarea id="hubSynopsis" rows="3" placeholder="Sinopsis..."></textarea>
+    <textarea id="hubSynopsis" rows="2" placeholder="Sinopsis..."></textarea>
     <button onclick="procesarHub()">🚀 Guardar Hub Principal</button>
   </div>
 
-  <!-- 2. AGREGAR CAPÍTULO -->
+  <!-- 2. AGREGAR CAPÍTULO INTELIGENTE -->
   <div class="section">
     <h3>🎬 2. Agregar Capítulo / Temporada a un Hub</h3>
-    <label>ID del Hub:</label>
-    <input type="text" id="capHubId" placeholder="dragon-ball-z">
-    <label>Número de Temporada:</label>
-    <input type="number" id="capSeasonNum" value="1">
-    <label>URL Imagen/Fondo de la Temporada:</label>
+    <label>Selecciona el Hub Destino:</label>
+    <select id="capHubSelect" onchange="autocompletarSugerenciaCapitulo()">
+      <option value="">-- Carga primero tus datos introduciendo el Token --</option>
+    </select>
+    <input type="text" id="capHubId" placeholder="O confirma el ID aquí" style="margin-top: 5px;">
+
+    <div style="display: flex; gap: 10px;">
+      <div style="flex: 1;">
+        <label>Número de Temporada:</label>
+        <input type="number" id="capSeasonNum" value="1">
+      </div>
+      <div style="flex: 1;">
+        <label>Número de Capítulo / Película:</label>
+        <input type="number" id="capNum" value="1">
+      </div>
+    </div>
+
+    <label>URL Imagen / Banner de Temporada (Opcional):</label>
     <input type="text" id="capSeasonImage" placeholder="https://...">
-    <label>Número de Capítulo:</label>
-    <input type="number" id="capNum" value="1">
-    <label>Título del Capítulo:</label>
-    <input type="text" id="capTitle" placeholder="Ej. El misterioso guerrero Saiyajin">
-    <label>Enlace de Video (Iframe o MP4/M3U8):</label>
-    <input type="text" id="capVideoUrl" placeholder="<iframe ...></iframe>">
+    <label>Título del Capítulo / Película:</label>
+    <input type="text" id="capTitle" placeholder="Ej. Capítulo 1 / Película Completa">
+    <label>Enlace de Video (Iframe o URL directa):</label>
+    <input type="text" id="capVideoUrl" placeholder="<iframe ...></iframe> o https://...">
     <label>Sinopsis del Capítulo (Opcional):</label>
-    <textarea id="capSynopsis" rows="2" placeholder="Detalles..."></textarea>
+    <textarea id="capSynopsis" rows="2" placeholder="Detalles de este capítulo..."></textarea>
     <button onclick="procesarCapitulo()">➕ Guardar Capítulo</button>
   </div>
 
-  <!-- 3. EDITAR O CORREGIR CONTENIDO SUBIDO -->
+  <!-- 3. EDITAR CONTENIDO CON MINIATURAS INTERACTIVAS -->
   <div class="section">
-    <h3>✏️ 3. Editar o Corregir Contenido Subido</h3>
-    <label>Selecciona el Hub a Editar:</label>
-    <select id="editHubSelect" onchange="seleccionarHubParaEditar()">
-      <option value="">-- Primero ingresa tu Token y carga los Hubs --</option>
-    </select>
+    <h3>✏️ 3. Editar o Corregir Contenido Existente (Selección por Clic)</h3>
+    <label>Selecciona una película o serie haciendo clic en su miniatura:</label>
+    <div id="hubMiniatureGrid" class="hub-grid">
+      <div style="grid-column: 1/-1; text-align: center; color: #8b949e; padding: 20px;">Ingresa tu Token arriba para desplegar las miniaturas</div>
+    </div>
 
-    <label>ID del Hub (No editable):</label>
+    <label>ID del Hub Seleccionado:</label>
     <input type="text" id="editHubId" disabled style="background: #21262d;">
 
     <label>Nuevo Título del Hub:</label>
     <input type="text" id="editHubTitle">
 
-    <label>Nueva URL Portada / Fondo General:</label>
+    <label>Nueva URL Portada / Póster:</label>
     <input type="text" id="editHubPoster">
 
     <label>Nueva Sinopsis General:</label>
     <textarea id="editHubSynopsis" rows="2"></textarea>
 
-    <div style="background: #0d0f12; padding: 10px; border-radius: 6px; margin-top: 10px; border: 1px solid #30363d;">
-      <label style="color: #ff4500;">Modificar Capítulo Específico (Opcional):</label>
-      <div style="display: flex; gap: 10px;">
-        <div style="flex: 1;"><label>Temporada:</label><input type="number" id="editSeasonNum" value="1"></div>
-        <div style="flex: 1;"><label>Capítulo:</label><input type="number" id="editCapNum" value="1"></div>
-      </div>
-      <label>Nuevo Título de Capítulo:</label>
-      <input type="text" id="editCapTitle" placeholder="Dejar en blanco si no se edita capítulo">
-      <label>Nuevo Enlace de Video / Iframe:</label>
-      <input type="text" id="editCapVideo" placeholder="<iframe ...></iframe>">
-      <label>Nueva Imagen de Temporada (Banner):</label>
-      <input type="text" id="editSeasonImage" placeholder="https://...">
-    </div>
-
-    <button class="btn-edit" onclick="aplicarEdicion()">💾 Actualizar y Guardar Cambios</button>
+    <button class="btn-edit" onclick="aplicarEdicionHub()">💾 Guardar Cambios del Hub</button>
   </div>
 
-  <!-- 4. CUADRO DE HONOR Y PATROCINADORES -->
+  <!-- 4. GESTIÓN DEL CLAN CODM (ॐiluminati) -->
   <div class="section">
-    <h3>⭐ 4. Cuadro de Honor y Banners de Publicidad</h3>
+    <h3>🛡️ 4. Administrar Página del Clan (ॐiluminati)</h3>
+    <label>Título / Anuncio de Reclutamiento:</label>
+    <input type="text" id="clanTitle" placeholder="Reclutamiento Activo - Clan ॐiluminati">
+    <label>Descripción / Requisitos Básicos:</label>
+    <textarea id="clanDesc" rows="3" placeholder="Información del clan, requisitos, etc..."></textarea>
+    <label>Enlace de Telegram / WhatsApp:</label>
+    <input type="text" id="clanLink" placeholder="https://t.me/...">
+    <label>Roster de Jugadores / Gamertags (Separados por coma o salto de línea):</label>
+    <textarea id="clanRoster" rows="2" placeholder="Crow, ILUMINATI_1, PlayerX..."></textarea>
+    <label>URL de Video Destacado / Clip Embebido (YouTube / Facebook iframe o link):</label>
+    <input type="text" id="clanVideo" placeholder="https://www.youtube.com/embed/... o <iframe ...></iframe>">
+    <button class="btn-clan" onclick="procesarClan()">🎮 Actualizar Datos del Clan</button>
+  </div>
+
+  <!-- 5. BANNERS Y PUBLICIDAD ESTÉTICA -->
+  <div class="section">
+    <h3>⭐ 5. Banners y Publicidad (Estáticos o GIFs)</h3>
     <label>Tipo de Registro:</label>
     <select id="pubType">
+      <option value="banner">Banner de Publicidad General (GIF o Imagen)</option>
       <option value="sponsor">Patrocinador (Cuadro de Honor)</option>
-      <option value="banner">Banner de Publicidad General</option>
     </select>
-    <label>Nombre / Identificador:</label>
-    <input type="text" id="pubName" placeholder="Ej. ॐiluminati Patrocinio">
-    <label>URL del Logo o Banner (Imagen):</label>
-    <input type="text" id="pubImage" placeholder="https://...">
-    <label>Enlace de Destino (Opcional):</label>
-    <input type="text" id="pubLink" placeholder="https://t.me/...">
-    <button class="btn-sponsor" onclick="procesarPublicidad()">✨ Registrar Patrocinador / Banner</button>
-  </div>
-
-  <!-- 5. GESTIÓN DEL CLAN CODM -->
-  <div class="section">
-    <h3>🛡️ 5. Sección Clan CODM (ॐiluminati)</h3>
-    <label>Título o Mensaje de Reclutamiento:</label>
-    <input type="text" id="clanTitle" placeholder="Reclutamiento Activo - Clan ॐiluminati">
-    <label>Descripción / Requisitos:</label>
-    <textarea id="clanDesc" rows="2" placeholder="Jugadores activos..."></textarea>
-    <label>Enlace del Botón del Clan (Telegram / WhatsApp):</label>
-    <input type="text" id="clanLink" placeholder="https://t.me/...">
-    <button class="btn-clan" onclick="procesarClan()">🎮 Actualizar Sección del Clan</button>
+    <label>Nombre del Anunciante / Banner:</label>
+    <input type="text" id="pubName" placeholder="Ej. Patrocinio ॐiluminati">
+    <label>URL de la Imagen o GIF Animado:</label>
+    <input type="text" id="pubImage" placeholder="https://... (.gif, .png, .jpg)">
+    <label>Enlace de Destino (al hacer clic):</label>
+    <input type="text" id="pubLink" placeholder="https://...">
+    <button class="btn-sponsor" onclick="procesarPublicidad()">✨ Registrar Banner / Patrocinador</button>
   </div>
 
   <div id="statusMsg"></div>
@@ -154,6 +183,14 @@
     const el = document.getElementById('statusMsg');
     el.innerText = text;
     el.className = `status ${type}`;
+  }
+
+  function normalizarId(texto) {
+    return texto.toLowerCase().trim()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Quitar acentos
+      .replace(/[^a-z0-9 -]/g, "") // Quitar caracteres especiales
+      .replace(/\s+/g, "-") // Reemplazar espacios por guiones
+      .replace(/-+/g, "-");
   }
 
   async function obtenerCatalogo(token) {
@@ -187,26 +224,48 @@
   async function cargarDatosAdmin() {
     const token = document.getElementById('githubToken').value.trim();
     if (!token) return;
-    showStatus("Cargando catálogo desde GitHub...", "warning");
+    showStatus("Cargando datos y miniaturas desde GitHub...", "warning");
     let { data } = await obtenerCatalogo(token);
     catalogoGlobal = data;
-    
-    const select = document.getElementById('editHubSelect');
-    select.innerHTML = '<option value="">-- Selecciona un Hub para editar --</option>';
-    if (catalogoGlobal.hubs) {
+
+    const selectCap = document.getElementById('capHubSelect');
+    selectCap.innerHTML = '<option value="">-- Selecciona un Hub existente --</option>';
+
+    const grid = document.getElementById('hubMiniatureGrid');
+    grid.innerHTML = '';
+
+    if (catalogoGlobal.hubs && catalogoGlobal.hubs.length > 0) {
       catalogoGlobal.hubs.forEach(h => {
         let opt = document.createElement('option');
         opt.value = h.id;
-        opt.innerText = `${h.title} (${h.category})`;
-        select.appendChild(opt);
+        opt.innerText = `${h.title} (${h.category || 'general'})`;
+        selectCap.appendChild(opt);
+
+        let card = document.createElement('div');
+        card.className = 'hub-card';
+        card.innerHTML = `<img src="${h.poster || 'https://via.placeholder.com/120x95'}" alt="${h.title}"><span>${h.title}</span>`;
+        card.onclick = () => seleccionarHubPorMiniatura(h.id, card);
+        grid.appendChild(card);
       });
+    } else {
+      grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #8b949e; padding: 20px;">No hay contenido guardado aún</div>';
     }
-    showStatus("¡Datos y Hubs cargados con éxito!", "success");
+
+    if (catalogoGlobal.clan) {
+      document.getElementById('clanTitle').value = catalogoGlobal.clan.title || '';
+      document.getElementById('clanDesc').value = catalogoGlobal.clan.desc || '';
+      document.getElementById('clanLink').value = catalogoGlobal.clan.link || '';
+      document.getElementById('clanRoster').value = catalogoGlobal.clan.roster || '';
+      document.getElementById('clanVideo').value = catalogoGlobal.clan.video || '';
+    }
+
+    showStatus("¡Datos y miniaturas cargados con éxito!", "success");
   }
 
-  function seleccionarHubParaEditar() {
-    const id = document.getElementById('editHubSelect').value;
-    if (!id) return;
+  function seleccionarHubPorMiniatura(id, cardElement) {
+    document.querySelectorAll('.hub-card').forEach(c => c.classList.remove('selected'));
+    cardElement.classList.add('selected');
+
     const hub = catalogoGlobal.hubs.find(h => h.id === id);
     if (!hub) return;
 
@@ -216,17 +275,46 @@
     document.getElementById('editHubSynopsis').value = hub.synopsis || '';
   }
 
+  function autocompletarSugerenciaCapitulo() {
+    const selectedId = document.getElementById('capHubSelect').value;
+    if (!selectedId) return;
+    document.getElementById('capHubId').value = selectedId;
+
+    const hub = catalogoGlobal.hubs.find(h => h.id === selectedId);
+    if (!hub || !hub.seasons || hub.seasons.length === 0) {
+      document.getElementById('capSeasonNum').value = 1;
+      document.getElementById('capNum').value = 1;
+      return;
+    }
+
+    let ultimaTemporada = hub.seasons[hub.seasons.length - 1];
+    let numTemporada = ultimaTemporada.season || 1;
+    let proximoEpisodio = 1;
+
+    if (ultimaTemporada.episodes && ultimaTemporada.episodes.length > 0) {
+      let maxEp = Math.max(...ultimaTemporada.episodes.map(e => e.episode || e.num || 0));
+      proximoEpisodio = maxEp + 1;
+    }
+
+    document.getElementById('capSeasonNum').value = numTemporada;
+    document.getElementById('capNum').value = proximoEpisodio;
+    if (ultimaTemporada.image) {
+      document.getElementById('capSeasonImage').value = ultimaTemporada.image;
+    }
+  }
+
   async function procesarHub() {
     const token = document.getElementById('githubToken').value.trim();
     if (!token) { alert('Introduce tu token de GitHub.'); return; }
 
-    const id = document.getElementById('hubId').value.trim();
+    const inputId = document.getElementById('hubId').value.trim();
     const title = document.getElementById('hubTitle').value.trim();
     const category = document.getElementById('hubCategory').value;
     const poster = document.getElementById('hubPoster').value.trim();
     const synopsis = document.getElementById('hubSynopsis').value.trim();
 
-    if (!id || !title) { alert('El ID y el Título son obligatorios.'); return; }
+    if (!title) { alert('El Título es obligatorio.'); return; }
+    const id = inputId ? normalizarId(inputId) : normalizarId(title);
 
     let { data, sha } = await obtenerCatalogo(token);
     if (!data.hubs) data.hubs = [];
@@ -234,13 +322,16 @@
     let hubExistente = data.hubs.find(h => h.id === id);
     if (hubExistente) {
       if (!confirm(`El Hub "${title}" ya existe. ¿Deseas actualizarlo?`)) return;
-      hubExistente.title = title; hubExistente.category = category; hubExistente.poster = poster; hubExistente.synopsis = synopsis;
+      hubExistente.title = title;
+      hubExistente.category = category;
+      hubExistente.poster = poster;
+      hubExistente.synopsis = synopsis;
     } else {
-      data.hubs.push({ id, title, category, poster, synopsis, seasons: [] });
+      data.hubs.push({ id, title, category, poster, synopsis, seasons: [{ season: 1, image: poster, episodes: [] }] });
     }
 
     if (await guardarCatalogo(token, data, sha, `Hub: ${title}`)) {
-      showStatus(`¡Éxito! Hub "${title}" guardado.`, "success");
+      showStatus(`¡Éxito! Hub "${title}" guardado sin errores.`, "success");
       document.getElementById('hubId').value = '';
       document.getElementById('hubTitle').value = '';
       document.getElementById('hubPoster').value = '';
@@ -253,108 +344,103 @@
     const token = document.getElementById('githubToken').value.trim();
     if (!token) { alert('Introduce tu token de GitHub.'); return; }
 
-    const hubId = document.getElementById('capHubId').value.trim();
-    const seasonNum = parseInt(document.getElementById('capSeasonNum').value);
+    const rawHubId = document.getElementById('capHubId').value.trim() || document.getElementById('capHubSelect').value;
+    const hubId = normalizarId(rawHubId);
+    const seasonNum = parseInt(document.getElementById('capSeasonNum').value) || 1;
     const seasonImage = document.getElementById('capSeasonImage').value.trim();
-    const capNum = parseInt(document.getElementById('capNum').value);
+    const capNum = parseInt(document.getElementById('capNum').value) || 1;
     const capTitle = document.getElementById('capTitle').value.trim();
     const videoUrl = document.getElementById('capVideoUrl').value.trim();
     const synopsis = document.getElementById('capSynopsis').value.trim();
 
-    if (!hubId || !capTitle || !videoUrl) { alert('Faltan campos obligatorios.'); return; }
+    if (!hubId || !capTitle || !videoUrl) { alert('El Hub, Título de capítulo y Enlace de video son obligatorios.'); return; }
 
     let { data, sha } = await obtenerCatalogo(token);
     if (!data.hubs) data.hubs = [];
 
-    let hub = data.hubs.find(h => h.id === hubId);
-    if (!hub) { alert(`No existe el Hub "${hubId}". Créalo primero.`); return; }
+    let hub = data.hubs.find(h => h.id === hubId || normalizarId(h.id) === hubId);
+    if (!hub) { alert(`El Hub "${hubId}" no se encuentra en el catálogo. Créalo en la Sección 1.`); return; }
 
     if (!hub.seasons) hub.seasons = [];
     let temporada = hub.seasons.find(s => s.season === seasonNum);
     if (!temporada) {
-      temporada = { season: seasonNum, image: seasonImage, episodes: [] };
+      temporada = { season: seasonNum, image: seasonImage || hub.poster, episodes: [] };
       hub.seasons.push(temporada);
-    } else if (seasonImage) { temporada.image = seasonImage; }
+    } else if (seasonImage) {
+      temporada.image = seasonImage;
+    }
 
-    let episodio = temporada.episodes.find(e => e.episode === capNum);
+    if (!temporada.episodes) temporada.episodes = [];
+    let episodio = temporada.episodes.find(e => (e.episode === capNum || e.num === capNum));
+
     if (episodio) {
-      if (!confirm(`El episodio ${capNum} ya existe. ¿Actualizarlo?`)) return;
-      episodio.title = capTitle; episodio.videoUrl = videoUrl; episodio.synopsis = synopsis;
+      if (!confirm(`El capítulo ${capNum} ya existe en esta temporada. ¿Deseas actualizarlo?`)) return;
+      episodio.title = capTitle;
+      episodio.videoUrl = videoUrl;
+      episodio.synopsis = synopsis;
     } else {
       temporada.episodes.push({ episode: capNum, title: capTitle, videoUrl, synopsis });
     }
 
-    if (await guardarCatalogo(token, data, sha, `Cap ${capNum} en ${hubId}`)) {
-      showStatus(`¡Éxito! Capítulo ${capNum} guardado.`, "success");
+    if (await guardarCatalogo(token, data, sha, `Capítulo ${capNum} guardado en ${hubId}`)) {
+      showStatus(`¡Éxito! Capítulo ${capNum} guardado correctamente.`, "success");
       document.getElementById('capTitle').value = '';
       document.getElementById('capVideoUrl').value = '';
       document.getElementById('capSynopsis').value = '';
       document.getElementById('capNum').value = capNum + 1;
-    } else { showStatus("Error al guardar.", "error"); }
+      cargarDatosAdmin();
+    } else { showStatus("Error al guardar en GitHub.", "error"); }
   }
 
-  async function aplicarEdicion() {
+  async function aplicarEdicionHub() {
     const token = document.getElementById('githubToken').value.trim();
-    if (!token) { alert('Introduce tu token.'); return; }
+    if (!token) { alert('Introduce tu token de GitHub.'); return; }
 
     const id = document.getElementById('editHubId').value;
-    if (!id) { alert('Selecciona un Hub primero.'); return; }
+    if (!id) { alert('Selecciona una miniatura primero.'); return; }
 
     let { data, sha } = await obtenerCatalogo(token);
     let hub = data.hubs.find(h => h.id === id);
     if (!hub) { alert('Hub no encontrado.'); return; }
 
-    // Actualizar datos del Hub
-    hub.title = document.getElementById('editHubTitle').value;
-    hub.poster = document.getElementById('editHubPoster').value;
-    hub.synopsis = document.getElementById('editHubSynopsis').value;
+    hub.title = document.getElementById('editHubTitle').value.trim();
+    hub.poster = document.getElementById('editHubPoster').value.trim();
+    hub.synopsis = document.getElementById('editHubSynopsis').value.trim();
 
-    // Si se llenó datos de capítulo para editar
-    const capTitleEdit = document.getElementById('editCapTitle').value.trim();
-    const videoEdit = document.getElementById('editCapVideo').value.trim();
-    const seasonNumEdit = parseInt(document.getElementById('editSeasonNum').value);
-    const capNumEdit = parseInt(document.getElementById('editCapNum').value);
-    const seasonImgEdit = document.getElementById('editSeasonImage').value.trim();
-
-    if (seasonNumEdit) {
-      if (!hub.seasons) hub.seasons = [];
-      let temp = hub.seasons.find(s => s.season === seasonNumEdit);
-      if (!temp) {
-        temp = { season: seasonNumEdit, image: seasonImgEdit, episodes: [] };
-        hub.seasons.push(temp);
-      } else if (seasonImgEdit) {
-        temp.image = seasonImgEdit;
-      }
-
-      if (capTitleEdit || videoEdit) {
-        let ep = temp.episodes.find(e => e.episode === capNumEdit);
-        if (ep) {
-          if (capTitleEdit) ep.title = capTitleEdit;
-          if (videoEdit) ep.videoUrl = videoEdit;
-        } else {
-          temp.episodes.push({ episode: capNumEdit, title: capTitleEdit || "Sin título", videoUrl: videoEdit || "" });
-        }
-      }
-    }
-
-    if (await guardarCatalogo(token, data, sha, `Edición general de ${id}`)) {
-      showStatus("¡Cambios aplicados y guardados con éxito!", "success");
+    if (await guardarCatalogo(token, data, sha, `Edición del Hub ${id}`)) {
+      showStatus("¡Hub actualizado y guardado con éxito!", "success");
       cargarDatosAdmin();
-    } else {
-      showStatus("Error al guardar cambios.", "error");
-    }
+    } else { showStatus("Error al guardar los cambios.", "error"); }
+  }
+
+  async function procesarClan() {
+    const token = document.getElementById('githubToken').value.trim();
+    if (!token) { alert('Introduce tu token.'); return; }
+
+    const title = document.getElementById('clanTitle').value.trim();
+    const desc = document.getElementById('clanDesc').value.trim();
+    const link = document.getElementById('clanLink').value.trim();
+    const roster = document.getElementById('clanRoster').value.trim();
+    const video = document.getElementById('clanVideo').value.trim();
+
+    let { data, sha } = await obtenerCatalogo(token);
+    data.clan = { title, desc, link, roster, video };
+
+    if (await guardarCatalogo(token, data, sha, `Actualizar Clan CODM`)) {
+      showStatus("¡Datos del clan ॐiluminati actualizados!", "success");
+    } else { showStatus("Error al guardar los datos del clan.", "error"); }
   }
 
   async function procesarPublicidad() {
     const token = document.getElementById('githubToken').value.trim();
     if (!token) { alert('Introduce tu token.'); return; }
-    
+
     const type = document.getElementById('pubType').value;
     const name = document.getElementById('pubName').value.trim();
     const image = document.getElementById('pubImage').value.trim();
     const link = document.getElementById('pubLink').value.trim();
 
-    if (!name || !image) { alert('Nombre e imagen obligatorios.'); return; }
+    if (!name || !image) { alert('El nombre y la URL de la imagen/GIF son obligatorios.'); return; }
 
     let { data, sha } = await obtenerCatalogo(token);
     if (type === 'sponsor') {
@@ -365,28 +451,12 @@
       data.banners.push({ name, image, link });
     }
 
-    if (await guardarCatalogo(token, data, sha, `Registrar Patrocinador/Banner`)) {
-      showStatus("¡Registrado con éxito!", "success");
+    if (await guardarCatalogo(token, data, sha, `Registrar Banner/Sponsor`)) {
+      showStatus("¡Banner o Patrocinador guardado con éxito!", "success");
       document.getElementById('pubName').value = '';
       document.getElementById('pubImage').value = '';
       document.getElementById('pubLink').value = '';
-    } else { showStatus("Error al guardar.", "error"); }
-  }
-
-  async function procesarClan() {
-    const token = document.getElementById('githubToken').value.trim();
-    if (!token) { alert('Introduce tu token.'); return; }
-
-    const title = document.getElementById('clanTitle').value.trim();
-    const desc = document.getElementById('clanDesc').value.trim();
-    const link = document.getElementById('clanLink').value.trim();
-
-    let { data, sha } = await obtenerCatalogo(token);
-    data.clan = { title, desc, link };
-
-    if (await guardarCatalogo(token, data, sha, `Actualizar Clan CODM`)) {
-      showStatus("¡Información del clan ॐiluminati actualizada con éxito!", "success");
-    } else { showStatus("Error al guardar.", "error"); }
+    } else { showStatus("Error al guardar la publicidad.", "error"); }
   }
 </script>
 
