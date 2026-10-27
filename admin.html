@@ -51,8 +51,8 @@
     <a href="index.html#series">Series</a>
     <a href="index.html#anime">Anime</a>
     <a href="index.html#telenovelas">Telenovelas</a>
-    <a href="clan.html" class="active">Únete al Clan</a>
-    <a href="admin.html" style="color:#ff4500;">⚙️ Admin</a>
+    <a href="clan.html">Únete al Clan</a>
+    <a href="admin.html" style="color:#ff4500;" class="active">⚙️ Admin</a>
   </nav>
 </header>
 
@@ -60,7 +60,10 @@
   <h2>PANEL ADMIN ॐ GOLDEN CROW TV</h2>
 
   <label>Token de Acceso de GitHub (Personal Access Token PAT):</label>
-  <input type="password" id="githubToken" placeholder="Pega tu token ghp_... aquí" onchange="cargarDatosAdmin()">
+  <div style="display: flex; gap: 10px;">
+    <input type="password" id="githubToken" placeholder="Pega tu token ghp_... aquí" style="flex: 1;">
+    <button type="button" onclick="cargarDatosAdmin()" style="width: 150px; margin-top: 5px; padding: 10px; background: #238636;">📂 Cargar Datos</button>
+  </div>
 
   <!-- 1. CREAR NUEVO HUB -->
   <div class="section">
@@ -88,7 +91,7 @@
     <h3>🎬 2. Agregar Capítulo / Temporada a un Hub</h3>
     <label>Selecciona el Hub Destino:</label>
     <select id="capHubSelect" onchange="autocompletarSugerenciaCapitulo()">
-      <option value="">-- Carga primero tus datos introduciendo el Token --</option>
+      <option value="">-- Carga primero tus datos con el botón de arriba --</option>
     </select>
     <input type="text" id="capHubId" placeholder="O confirma el ID aquí" style="margin-top: 5px;">
 
@@ -114,12 +117,12 @@
     <button onclick="procesarCapitulo()">➕ Guardar Capítulo</button>
   </div>
 
-  <!-- 3. EDITAR CONTENIDO CON MINIATURAS INTERACTIVAS -->
+  <!-- 3. EDITAR CONTENIDO EXISTENTE CON MINIATURAS -->
   <div class="section">
-    <h3>✏️ 3. Editar o Corregir Contenido Existente (Selección por Clic)</h3>
+    <h3>✏️ 3. Editar o Re-editar Contenido (Selección por Clic)</h3>
     <label>Selecciona una película o serie haciendo clic en su miniatura:</label>
     <div id="hubMiniatureGrid" class="hub-grid">
-      <div style="grid-column: 1/-1; text-align: center; color: #8b949e; padding: 20px;">Ingresa tu Token arriba para desplegar las miniaturas</div>
+      <div style="grid-column: 1/-1; text-align: center; color: #8b949e; padding: 20px;">Haz clic en "Cargar Datos" para ver tus portadas</div>
     </div>
 
     <label>ID del Hub Seleccionado:</label>
@@ -134,7 +137,7 @@
     <label>Nueva Sinopsis General:</label>
     <textarea id="editHubSynopsis" rows="2"></textarea>
 
-    <button class="btn-edit" onclick="aplicarEdicionHub()">💾 Guardar Cambios del Hub</button>
+    <button class="btn-edit" onclick="aplicarEdicionHub()">💾 Guardar Cambios y Re-editar</button>
   </div>
 
   <!-- 4. GESTIÓN DEL CLAN CODM (ॐiluminati) -->
@@ -187,9 +190,9 @@
 
   function normalizarId(texto) {
     return texto.toLowerCase().trim()
-      .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Quitar acentos
-      .replace(/[^a-z0-9 -]/g, "") // Quitar caracteres especiales
-      .replace(/\s+/g, "-") // Reemplazar espacios por guiones
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9 -]/g, "")
+      .replace(/\s+/g, "-")
       .replace(/-+/g, "-");
   }
 
@@ -223,8 +226,9 @@
 
   async function cargarDatosAdmin() {
     const token = document.getElementById('githubToken').value.trim();
-    if (!token) return;
-    showStatus("Cargando datos y miniaturas desde GitHub...", "warning");
+    if (!token) { alert('Por favor, ingresa tu Token de GitHub primero.'); return; }
+    showStatus("Conectando con GitHub y cargando catálogo...", "warning");
+    
     let { data } = await obtenerCatalogo(token);
     catalogoGlobal = data;
 
@@ -247,8 +251,10 @@
         card.onclick = () => seleccionarHubPorMiniatura(h.id, card);
         grid.appendChild(card);
       });
+      showStatus(`¡Catálogo cargado! ${catalogoGlobal.hubs.length} contenidos listos para editar.`, "success");
     } else {
-      grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #8b949e; padding: 20px;">No hay contenido guardado aún</div>';
+      grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #8b949e; padding: 20px;">No hay contenido en el catálogo todavía</div>';
+      showStatus("El catálogo está vacío o no se encontró el archivo.", "warning");
     }
 
     if (catalogoGlobal.clan) {
@@ -258,8 +264,6 @@
       document.getElementById('clanRoster').value = catalogoGlobal.clan.roster || '';
       document.getElementById('clanVideo').value = catalogoGlobal.clan.video || '';
     }
-
-    showStatus("¡Datos y miniaturas cargados con éxito!", "success");
   }
 
   function seleccionarHubPorMiniatura(id, cardElement) {
@@ -374,7 +378,7 @@
     let episodio = temporada.episodes.find(e => (e.episode === capNum || e.num === capNum));
 
     if (episodio) {
-      if (!confirm(`El capítulo ${capNum} ya existe en esta temporada. ¿Deseas actualizarlo?`)) return;
+      if (!confirm(`El capítulo ${capNum} ya existe. ¿Deseas re-editarlo?`)) return;
       episodio.title = capTitle;
       episodio.videoUrl = videoUrl;
       episodio.synopsis = synopsis;
@@ -383,7 +387,7 @@
     }
 
     if (await guardarCatalogo(token, data, sha, `Capítulo ${capNum} guardado en ${hubId}`)) {
-      showStatus(`¡Éxito! Capítulo ${capNum} guardado correctamente.`, "success");
+      showStatus(`¡Éxito! Capítulo ${capNum} guardado y actualizado correctamente.`, "success");
       document.getElementById('capTitle').value = '';
       document.getElementById('capVideoUrl').value = '';
       document.getElementById('capSynopsis').value = '';
@@ -397,7 +401,7 @@
     if (!token) { alert('Introduce tu token de GitHub.'); return; }
 
     const id = document.getElementById('editHubId').value;
-    if (!id) { alert('Selecciona una miniatura primero.'); return; }
+    if (!id) { alert('Selecciona una miniatura primero de la cuadrícula.'); return; }
 
     let { data, sha } = await obtenerCatalogo(token);
     let hub = data.hubs.find(h => h.id === id);
@@ -407,8 +411,8 @@
     hub.poster = document.getElementById('editHubPoster').value.trim();
     hub.synopsis = document.getElementById('editHubSynopsis').value.trim();
 
-    if (await guardarCatalogo(token, data, sha, `Edición del Hub ${id}`)) {
-      showStatus("¡Hub actualizado y guardado con éxito!", "success");
+    if (await guardarCatalogo(token, data, sha, `Re-edición del Hub ${id}`)) {
+      showStatus("¡Hub re-editado y guardado con éxito en GitHub!", "success");
       cargarDatosAdmin();
     } else { showStatus("Error al guardar los cambios.", "error"); }
   }
