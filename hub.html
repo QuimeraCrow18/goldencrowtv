@@ -3,120 +3,135 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalles - Golden Crow TV</title>
+  <title>Ver Contenido - ॐ GOLDEN CROW TV</title>
   <style>
     body { background-color: #0d0f12; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-    header { background: #161b22; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; }
-    h1 { color: #ff4500; margin: 0; font-size: 22px; cursor: pointer; }
-    .container { max-width: 900px; margin: auto; padding: 30px 20px; }
-    .hub-header { display: flex; gap: 25px; align-items: flex-start; flex-wrap: wrap; background: #161b22; padding: 20px; border-radius: 10px; border: 1px solid #30363d; }
-    .hub-poster { width: 200px; height: 300px; object-fit: cover; border-radius: 8px; border: 1px solid #30363d; }
+    header { background: #161b22; padding: 15px 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; gap: 10px; }
+    h1 { color: #ff4500; margin: 0; font-size: 20px; cursor: pointer; }
+    nav { display: flex; gap: 12px; flex-wrap: wrap; }
+    nav a { color: #c9d1d9; text-decoration: none; font-size: 13px; font-weight: bold; transition: color 0.2s; }
+    nav a:hover { color: #ff4500; }
+
+    .container { max-width: 900px; margin: 25px auto; background: #161b22; padding: 25px; border-radius: 12px; border: 1px solid #30363d; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+    .hub-header { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+    .hub-header img { width: 180px; height: 260px; object-fit: cover; border-radius: 8px; border: 1px solid #30363d; }
     .hub-info { flex: 1; min-width: 250px; }
-    .hub-info h2 { margin-top: 0; color: #ff4500; font-size: 28px; }
-    .hub-info p { color: #8b949e; line-height: 1.6; font-size: 14px; }
+    .hub-info h2 { color: #ff4500; margin-top: 0; font-size: 26px; }
+    .hub-info p { color: #8b949e; font-size: 14px; line-height: 1.5; }
+
+    .section-title { color: #e65c00; border-bottom: 1px solid #30363d; padding-bottom: 8px; margin-top: 30px; font-size: 18px; }
     
-    .season-section { margin-top: 40px; }
-    .season-title { color: #e65c00; font-size: 20px; border-bottom: 2px solid #30363d; padding-bottom: 5px; margin-bottom: 15px; }
-    .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-    .episode-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px; cursor: pointer; transition: transform 0.2s, border-color 0.2s; }
-    .episode-card:hover { transform: translateY(-3px); border-color: #ff4500; }
-    .episode-title { font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #f0f6fc; }
-    .episode-desc { font-size: 12px; color: #8b949e; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .episode-card { background: #21262d; border: 1px solid #30363d; padding: 15px; border-radius: 8px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .episode-info { flex: 1; min-width: 200px; }
+    .episode-info h4 { margin: 0 0 5px 0; color: #f0f6fc; font-size: 16px; }
+    .episode-info p { margin: 0; color: #8b949e; font-size: 12px; }
+
+    .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn-play { background: #ff4500; color: white; padding: 8px 14px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: bold; }
+    .btn-play:hover { background: #e03e00; }
+    .btn-download { background: #238636; color: white; padding: 8px 14px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: bold; }
+    .btn-download:hover { background: #2ea043; }
+
+    .loading { text-align: center; color: #8b949e; padding: 40px; font-size: 16px; }
   </style>
 </head>
 <body>
 
 <header>
   <h1 onclick="window.location.href='index.html'">ॐ GOLDEN CROW TV</h1>
-  <div>
-    <a href="index.html" style="color: #8b949e; text-decoration: none; font-size: 14px; font-weight: bold;">← Volver al Inicio</a>
-  </div>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="index.html#peliculas">Películas</a>
+    <a href="index.html#series">Series</a>
+    <a href="index.html#anime">Anime</a>
+    <a href="index.html#telenovelas">Telenovelas</a>
+    <a href="clan.html">Únete al Clan</a>
+  </nav>
 </header>
 
 <div class="container" id="hubContainer">
-  <p style="text-align: center; color: #8b949e;">Cargando información del contenido...</p>
+  <div class="loading">Cargando contenido desde el catálogo...</div>
 </div>
 
 <script>
-  const REPO_OWNER = "quimeracrow18";
-  const REPO_NAME = "goldencrowtv";
-  const FILE_PATH = "catalogo.json";
-
-  // Obtener el ID del Hub desde la URL (ej: hub.html?id=rick-y-morty)
-  const urlParams = new URLSearchParams(window.location.search);
-  const hubId = urlParams.get('id');
-
   async function cargarDetalleHub() {
+    const params = new URLSearchParams(window.location.search);
+    const hubId = params.get('id');
+    const container = document.getElementById('hubContainer');
+
     if (!hubId) {
-      document.getElementById('hubContainer').innerHTML = `<p style="text-align: center; color: #ff4d4d;">No se especificó ningún contenido.</p>`;
+      container.innerHTML = '<p class="loading" style="color:#ff4d4d;">No se especificó ningún contenido.</p>';
       return;
     }
 
     try {
-      let res = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}?t=${Date.now()}`);
-      if (!res.ok) throw new Error("Error al conectar con el catálogo");
-      let data = await res.json();
+      const res = await fetch('catalogo.json?t=' + Date.now());
+      if (!res.ok) throw new Error('No se pudo cargar el catálogo.');
+      const data = await res.json();
       
-      let hubs = data.hubs || (Array.isArray(data) ? data : []);
-      let hub = hubs.find(h => h.id === hubId);
+      const hubs = data.hubs || data; // Soporte total para ambos formatos
+      const hub = hubs.find(h => h.id === hubId);
 
       if (!hub) {
-        document.getElementById('hubContainer').innerHTML = `<p style="text-align: center; color: #ff4d4d;">Contenido no encontrado en el catálogo.</p>`;
+        container.innerHTML = '<p class="loading" style="color:#ff4d4d;">Contenido no encontrado en el catálogo.</p>';
         return;
       }
 
-      renderizarHub(hub);
-    } catch (e) {
-      document.getElementById('hubContainer').innerHTML = `<p style="text-align: center; color: #ff4d4d;">Error al cargar los datos del servidor.</p>`;
-    }
-  }
-
-  function renderizarHub(hub) {
-    const container = document.getElementById('hubContainer');
-    
-    let html = `
-      <div class="hub-header">
-        <img src="${hub.poster || 'https://via.placeholder.com/200x300'}" alt="${hub.title}" class="hub-poster">
-        <div class="hub-info">
-          <h2>${hub.title}</h2>
-          <p><strong>Categoría:</strong> ${hub.category.toUpperCase()}</p>
-          <p>${hub.synopsis || 'Sin sinopsis disponible por el momento.'}</p>
-        </div>
-      </div>
-    `;
-
-    if (hub.seasons && hub.seasons.length > 0) {
-      hub.seasons.forEach(season => {
-        html += `
-          <div class="season-section">
-            <div class="season-title">Temporada ${season.season}</div>
-            <div class="episodes-grid">
-        `;
-        
-        season.episodes.forEach(ep => {
-          html += `
-            <div class="episode-card" onclick="verCapitulo('${hub.id}', ${season.season}, ${ep.episode})">
-              <div class="episode-title">${ep.episode}. ${ep.title}</div>
-              <div class="episode-desc">${ep.synopsis || 'Reproducir episodio...'}</div>
-            </div>
-          `;
-        });
-
-        html += `
-            </div>
+      // Renderizar cabecera del Hub
+      let html = `
+        <div class="hub-header">
+          <img src="${hub.poster || 'https://via.placeholder.com/180x260'}" alt="${hub.title}">
+          <div class="hub-info">
+            <h2>${hub.title}</h2>
+            <p><b>Categoría:</b> ${(hub.category || 'General').toUpperCase()}</p>
+            <p>${hub.synopsis || 'Sin sinopsis disponible por el momento.'}</p>
           </div>
-        `;
-      });
-    } else {
-      html += `<p style="text-align: center; color: #8b949e; margin-top: 40px;">Próximamente se agregarán temporadas y capítulos.</p>`;
+        </div>
+      `;
+
+      // Renderizar Temporadas y Capítulos / Contenidos
+      if (hub.seasons && hub.seasons.length > 0) {
+        hub.seasons.forEach(season => {
+          html += `<div class="section-title">Temporada ${season.season}</div>`;
+          
+          if (season.episodes && season.episodes.length > 0) {
+            season.episodes.forEach(ep => {
+              let numEp = ep.episode || ep.num || 1;
+              let tituloEp = ep.title || `Capítulo ${numEp}`;
+              let sinopsisEp = ep.synopsis ? `<p>${ep.synopsis}</p>` : '';
+              
+              let botonesHtml = '<div class="btn-group">';
+              if (ep.videoUrl) {
+                botonesHtml += `<a href="ver.html?id=${hub.id}&s=${season.season}&e=${numEp}" class="btn-play">▶ Ver Online</a>`;
+              }
+              if (ep.downloadUrl) {
+                botonesHtml += `<a href="${ep.downloadUrl}" target="_blank" class="btn-download">📥 Descargar (TeraBox)</a>`;
+              }
+              botonesHtml += '</div>';
+
+              html += `
+                <div class="episode-card">
+                  <div class="episode-info">
+                    <h4>Episodio ${numEp}: ${tituloEp}</h4>
+                    ${sinopsisEp}
+                  </div>
+                  ${botonesHtml}
+                </div>
+              `;
+            });
+          } else {
+            html += `<p style="color: #8b949e; font-size: 13px; margin-top: 10px;">Próximamente capítulos para esta temporada.</p>`;
+          }
+        });
+      } else {
+        html += `<p style="color: #8b949e; font-size: 14px; margin-top: 20px; text-align: center;">Este contenido se está actualizando. Vuelve pronto.</p>`;
+      }
+
+      container.innerHTML = html;
+
+    } catch (e) {
+      container.innerHTML = '<p class="loading" style="color:#ff4d4d;">Error al cargar los datos del servidor.</p>';
     }
-
-    container.innerHTML = html;
-  }
-
-  function verCapitulo(hubId, seasonNum, epNum) {
-    // Redirigirá a la página de reproducción que haremos a continuación
-    window.location.href = `ver.html?id=${hubId}&s=${seasonNum}&e=${epNum}`;
   }
 
   cargarDetalleHub();
