@@ -21,10 +21,12 @@
     button:hover { background: #e03e00; }
     .btn-clan { background: #8a2be2; }
     .btn-clan:hover { background: #7b1fa2; }
+    .btn-social { background: #1f6feb; }
+    .btn-social:hover { background: #388bfd; }
     .btn-sponsor { background: #d4af37; color: #000; }
     .btn-sponsor:hover { background: #c59b27; }
-    .btn-edit { background: #1f6feb; }
-    .btn-edit:hover { background: #388bfd; }
+    .btn-edit { background: #238636; }
+    .btn-edit:hover { background: #2ea043; }
     .section { border-top: 1px solid #30363d; margin-top: 25px; padding-top: 20px; }
     .status { margin-top: 15px; font-size: 14px; text-align: center; font-weight: bold; padding: 10px; border-radius: 6px; }
     .success { background: rgba(0, 255, 136, 0.1); color: #00ff88; border: 1px solid #00ff88; }
@@ -167,9 +169,33 @@
     <button class="btn-clan" onclick="procesarClan()">🎮 Actualizar Datos del Clan</button>
   </div>
 
-  <!-- 5. BANNERS Y PUBLICIDAD ESTÉTICA -->
+  <!-- 5. REDES SOCIALES Y CANALES OFICIALES (WhatsApp, Telegram, YouTube, FB, IG, TikTok) -->
   <div class="section">
-    <h3>⭐ 5. Banners y Publicidad (Estáticos o GIFs)</h3>
+    <h3>📱 5. Redes Sociales y Canales Oficiales</h3>
+    <label>Enlace de WhatsApp (Grupo / Comunidad / Chat):</label>
+    <input type="text" id="socialWhatsapp" placeholder="https://chat.whatsapp.com/...">
+
+    <label>Enlace de Telegram (Canal / Grupo):</label>
+    <input type="text" id="socialTelegram" placeholder="https://t.me/...">
+
+    <label>Enlace de YouTube (Canal / Video):</label>
+    <input type="text" id="socialYoutube" placeholder="https://youtube.com/@...">
+
+    <label>Enlace de Facebook (Página / Grupo):</label>
+    <input type="text" id="socialFacebook" placeholder="https://facebook.com/...">
+
+    <label>Enlace de Instagram:</label>
+    <input type="text" id="socialInstagram" placeholder="https://instagram.com/...">
+
+    <label>Enlace de TikTok:</label>
+    <input type="text" id="socialTiktok" placeholder="https://tiktok.com/@...">
+
+    <button class="btn-social" onclick="procesarRedesSociales()">🌐 Guardar Redes y Canales</button>
+  </div>
+
+  <!-- 6. BANNERS Y PUBLICIDAD ESTÉTICA -->
+  <div class="section">
+    <h3>⭐ 6. Banners y Publicidad (Estáticos o GIFs)</h3>
     <label>Tipo de Registro:</label>
     <select id="pubType">
       <option value="banner">Banner de Publicidad General (GIF o Imagen)</option>
@@ -191,7 +217,7 @@
   const REPO_OWNER = "quimeracrow18";
   const REPO_NAME = "goldencrowtv";
   const FILE_PATH = "catalogo.json";
-  let catalogoGlobal = { hubs: [], sponsors: [], banners: [], clan: {} };
+  let catalogoGlobal = { hubs: [], sponsors: [], banners: [], clan: {}, social: {} };
 
   function showStatus(text, type = "success") {
     const el = document.getElementById('statusMsg');
@@ -212,15 +238,15 @@
       const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
         headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
       });
-      if (!res.ok) return { data: { hubs: [], sponsors: [], banners: [], clan: {} }, sha: null };
+      if (!res.ok) return { data: { hubs: [], sponsors: [], banners: [], clan: {}, social: {} }, sha: null };
       const json = await res.json();
       const content = JSON.parse(decodeURIComponent(escape(window.atob(json.content.replace(/\s/g, '')))));
       if (Array.isArray(content)) {
-        return { data: { hubs: content, sponsors: [], banners: [], clan: {} }, sha: json.sha };
+        return { data: { hubs: content, sponsors: [], banners: [], clan: {}, social: {} }, sha: json.sha };
       }
       return { data: content, sha: json.sha };
     } catch (e) {
-      return { data: { hubs: [], sponsors: [], banners: [], clan: {} }, sha: null };
+      return { data: { hubs: [], sponsors: [], banners: [], clan: {}, social: {} }, sha: null };
     }
   }
 
@@ -274,6 +300,15 @@
       document.getElementById('clanLink').value = catalogoGlobal.clan.link || '';
       document.getElementById('clanRoster').value = catalogoGlobal.clan.roster || '';
       document.getElementById('clanVideo').value = catalogoGlobal.clan.video || '';
+    }
+
+    if (catalogoGlobal.social) {
+      document.getElementById('socialWhatsapp').value = catalogoGlobal.social.whatsapp || '';
+      document.getElementById('socialTelegram').value = catalogoGlobal.social.telegram || '';
+      document.getElementById('socialYoutube').value = catalogoGlobal.social.youtube || '';
+      document.getElementById('socialFacebook').value = catalogoGlobal.social.facebook || '';
+      document.getElementById('socialInstagram').value = catalogoGlobal.social.instagram || '';
+      document.getElementById('socialTiktok').value = catalogoGlobal.social.tiktok || '';
     }
   }
 
@@ -450,6 +485,25 @@
     if (await guardarCatalogo(token, data, sha, `Actualizar Clan CODM`)) {
       showStatus("¡Datos del clan ॐiluminati actualizados!", "success");
     } else { showStatus("Error al guardar los datos del clan.", "error"); }
+  }
+
+  async function procesarRedesSociales() {
+    const token = document.getElementById('githubToken').value.trim();
+    if (!token) { alert('Introduce tu token.'); return; }
+
+    const whatsapp = document.getElementById('socialWhatsapp').value.trim();
+    const telegram = document.getElementById('socialTelegram').value.trim();
+    const youtube = document.getElementById('socialYoutube').value.trim();
+    const facebook = document.getElementById('socialFacebook').value.trim();
+    const instagram = document.getElementById('socialInstagram').value.trim();
+    const tiktok = document.getElementById('socialTiktok').value.trim();
+
+    let { data, sha } = await obtenerCatalogo(token);
+    data.social = { whatsapp, telegram, youtube, facebook, instagram, tiktok };
+
+    if (await guardarCatalogo(token, data, sha, `Actualizar Redes Sociales y Canales`)) {
+      showStatus("¡Redes sociales y canales actualizados con éxito!", "success");
+    } else { showStatus("Error al guardar las redes sociales.", "error"); }
   }
 
   async function procesarPublicidad() {
