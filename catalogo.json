@@ -29,6 +29,13 @@
               "videoUrl": "<iframe src=\"https://streamtape.com/e/J9RvOBG178Hjwaq/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
               "downloadUrl": "",
               "synopsis": "Rick le da a Snuffles un casco para hacerlo más inteligente, mientras entra junto con Morty en los sueños del profesor de matemáticas."
+            },
+            {
+              "episode": 3,
+              "title": "Anatomy Park",
+              "videoUrl": "<iframe src=\"https://streamtape.com/e/AKKwA8rkbJCBBX/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
+              "downloadUrl": "",
+              "synopsis": "Rick envía a Morty dentro de un vagabundo sin hogar para salvar un parque de diversiones microscópico."
             }
           ]
         }
