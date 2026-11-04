@@ -279,6 +279,20 @@
           ]
         }
       ]
+    },
+    {
+      "id": "one-punch-man",
+      "title": "One Punch Man",
+      "category": "anime",
+      "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYQB6eQB9_WYAI8s9bUn67hGkkPwlNQkmLH2WpfG5jSg&s=10",
+      "synopsis": "Saitama es un héroe tan poderoso que puede derrotar a cualquier enemigo de un solo puñetazo. Sin embargo, su abrumadora fuerza lo sume en el aburrimiento, llevándolo a buscar desesperadamente un oponente digno junto a su discípulo cíborg, Genos.",
+      "seasons": [
+        {
+          "season": 1,
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYQB6eQB9_WYAI8s9bUn67hGkkPwlNQkmLH2WpfG5jSg&s=10",
+          "episodes": []
+        }
+      ]
     }
   ],
   "sponsors": [],
