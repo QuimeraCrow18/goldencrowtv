@@ -50,6 +50,13 @@
               "videoUrl": "<iframe src=\"https://streamtape.com/e/qWBzdj2oYlczPbg/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
               "downloadUrl": "",
               "synopsis": "Mientras Morty lidera una aventura de fantasía para demostrar que Rick se equivoca, la familia pide ayuda a los Mr. Meeseeks para cumplir metas sencillas con resultados caóticos."
+            },
+            {
+              "episode": 6,
+              "title": "Rick Potion #9",
+              "videoUrl": "<iframe src=\"https://streamtape.com/e/QwWry8zDJyUrRy/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
+              "downloadUrl": "",
+              "synopsis": "Rick le da a Morty una poción para que Jessica se enamore de él, pero un virus convierte a todo el mundo en mutantes, obligando a Rick y Morty a mudarse a otra dimensión."
             }
           ]
         }
