@@ -246,7 +246,15 @@
         {
           "season": 1,
           "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5nZPnxQArTNWEKNhbb-7-PTFSF756S8a3u4CXOxqqkA&s=10",
-          "episodes": []
+          "episodes": [
+            {
+              "episode": 1,
+              "title": "Mad Max: Furia en el camino (Mad Max: Fury Road)",
+              "videoUrl": "<iframe src=\"https://streamtape.com/e/1bG9zaGzzWIeRYL/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
+              "downloadUrl": "",
+              "synopsis": "En un mundo desértico y posapocalíptico, Max se une a Imperator Furiosa para escapar del tirano Immortan Joe y su ejército a bordo de un camión cisterna fuertemente armado."
+            }
+          ]
         }
       ]
     }
