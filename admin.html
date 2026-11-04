@@ -102,52 +102,22 @@
             transition: background 0.2s, opacity 0.2s;
         }
 
-        .btn-orange {
-            background: #ff6b00;
-            color: #ffffff;
-        }
+        .btn-orange { background: #ff6b00; color: #ffffff; }
+        .btn-orange:hover { background: #e05e00; }
 
-        .btn-orange:hover {
-            background: #e05e00;
-        }
+        .btn-green { background: #28a745; color: #ffffff; }
+        .btn-green:hover { background: #218838; }
 
-        .btn-green {
-            background: #28a745;
-            color: #ffffff;
-        }
+        .btn-purple { background: #8e44ad; color: #ffffff; }
+        .btn-purple:hover { background: #73328e; }
 
-        .btn-green:hover {
-            background: #218838;
-        }
+        .btn-blue { background: #17a2b8; color: #ffffff; }
+        .btn-blue:hover { background: #138496; }
 
-        .btn-purple {
-            background: #8e44ad;
-            color: #ffffff;
-        }
+        .btn-danger { background: #d9534f; color: #ffffff; }
+        .btn-danger:hover { background: #c9302c; }
 
-        .btn-purple:hover {
-            background: #73328e;
-        }
-
-        .btn-blue {
-            background: #17a2b8;
-            color: #ffffff;
-        }
-
-        .btn-blue:hover {
-            background: #138496;
-        }
-
-        .btn-danger {
-            background: #d9534f;
-            color: #ffffff;
-        }
-
-        .btn-danger:hover {
-            background: #c9302c;
-        }
-
-        /* Cuadrícula de miniaturas en la Sección 3 */
+        /* Grilla de miniaturas en la Sección 3 */
         .hub-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -322,7 +292,7 @@
 
             <button class="btn btn-green" onclick="guardarCambiosHub()">💾 Guardar Cambios del Hub</button>
 
-            <!-- 🌟 APARTADO NUEVO: GESTOR DE CAPÍTULOS / TEMPORADAS DE ESTE HUB 🌟 -->
+            <!-- 🌟 APARTADO GESTOR DE CAPÍTULOS / TEMPORADAS DE ESTE HUB 🌟 -->
             <div class="box-sub">
                 <div class="sub-header">📺 Editar o Eliminar Capítulos de este Hub</div>
                 
@@ -365,7 +335,7 @@
                     </div>
                 </div>
             </div>
-            <!-- FIN APARTADO NUEVO -->
+            <!-- FIN APARTADO -->
         </div>
     </div>
 
@@ -440,9 +410,8 @@
 
 </div>
 
-<!-- LÓGICA Y JAVASCRIPT -->
+<!-- SCRIPT Y LÓGICA -->
 <script>
-    // Objeto global de datos
     let baseDatos = {
         hubs: [],
         capitulos: [],
@@ -454,36 +423,58 @@
     let hubSeleccionadoId = null;
     let indexCapituloSeleccionado = null;
 
-    // Generar ID del Hub automáticamente al escribir el título
+    // Generar ID del Hub automáticamente
     function generarHubId() {
         const titulo = document.getElementById('hubTitulo').value;
         const id = titulo.toLowerCase()
-            .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Quitar acentos
-            .replace(/[^a-z0-9 -]/g, "") // Quitar caracteres raros
-            .replace(/\s+/g, "-") // Espacios a guiones
-            .replace(/-+/g, "-"); // Evitar guiones dobles
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9 -]/g, "")
+            .replace(/\s+/g, "-")
+            .replace(/-+/g, "-");
         document.getElementById('hubId').value = id;
     }
 
-    // Cargar datos al iniciar
+    // Cargar base de datos al iniciar de forma segura
     window.onload = function() {
-        const local = localStorage.getItem('gc_tv_database');
-        if (local) {
-            try {
-                baseDatos = JSON.parse(local);
-                actualizarVistasPanel();
-            } catch(e) {
-                console.log("Error al parsear base de datos local");
+        const llavesPosibles = ['gc_tv_database', 'golden_crow_db', 'db_hubs'];
+        let encontrado = false;
+
+        for (let llave of llavesPosibles) {
+            const data = localStorage.getItem(llave);
+            if (data) {
+                try {
+                    const parsed = JSON.parse(data);
+                    if (parsed && (parsed.hubs || Array.isArray(parsed))) {
+                        // Compatible por si el formato guardaba array directo o estructura completa
+                        baseDatos.hubs = parsed.hubs || parsed;
+                        baseDatos.capitulos = parsed.capitulos || [];
+                        baseDatos.clan = parsed.clan || {};
+                        baseDatos.redes = parsed.redes || {};
+                        baseDatos.banners = parsed.banners || [];
+                        encontrado = true;
+                        break;
+                    }
+                } catch(e) {
+                    console.log("Error leyendo llave:", llave);
+                }
             }
         }
+
+        // Token guardado previamente
+        const tokenGuardado = localStorage.getItem('gc_github_token');
+        if (tokenGuardado) {
+            document.getElementById('githubToken').value = tokenGuardado;
+        }
+
+        actualizarVistasPanel();
     };
 
     function cargarDatosBase() {
-        const token = document.getElementById('githubToken').value;
+        const token = document.getElementById('githubToken').value.trim();
         if(token) {
             localStorage.setItem('gc_github_token', token);
         }
-        alert("Datos y Token sincronizados correctamente.");
+        alert("¡Datos y Token sincronizados correctamente!");
         actualizarVistasPanel();
     }
 
@@ -495,27 +486,35 @@
     function actualizarVistasPanel() {
         // 1. Llenar Select de Hub Destino (Sección 2)
         const selectHub = document.getElementById('selectHubDestino');
-        selectHub.innerHTML = '<option value="">-- Selecciona un Hub --</option>';
-        baseDatos.hubs.forEach(h => {
-            const opt = document.createElement('option');
-            opt.value = h.id;
-            opt.textContent = `${h.titulo} (${h.categoria})`;
-            selectHub.appendChild(opt);
-        });
+        if (selectHub) {
+            selectHub.innerHTML = '<option value="">-- Selecciona un Hub --</option>';
+            baseDatos.hubs.forEach(h => {
+                const opt = document.createElement('option');
+                opt.value = h.id;
+                opt.textContent = `${h.titulo} (${h.categoria || 'General'})`;
+                selectHub.appendChild(opt);
+            });
+        }
 
         // 2. Llenar Grilla de Hubs (Sección 3)
         const grid = document.getElementById('gridHubsEdit');
-        grid.innerHTML = '';
-        baseDatos.hubs.forEach(h => {
-            const div = document.createElement('div');
-            div.className = `hub-thumb ${hubSeleccionadoId === h.id ? 'active' : ''}`;
-            div.onclick = () => seleccionarHubParaEditar(h.id);
-            div.innerHTML = `
-                <img src="${h.portada || 'https://via.placeholder.com/100x120?text=No+Img'}" alt="cover">
-                <p>${h.titulo}</p>
-            `;
-            grid.appendChild(div);
-        });
+        if (grid) {
+            grid.innerHTML = '';
+            if (baseDatos.hubs.length === 0) {
+                grid.innerHTML = '<p style="color: #777; font-size: 12px; grid-column: span 3;">No hay hubs registrados aún.</p>';
+                return;
+            }
+            baseDatos.hubs.forEach(h => {
+                const div = document.createElement('div');
+                div.className = `hub-thumb ${hubSeleccionadoId === h.id ? 'active' : ''}`;
+                div.onclick = () => seleccionarHubParaEditar(h.id);
+                div.innerHTML = `
+                    <img src="${h.portada || 'https://via.placeholder.com/100x120?text=No+Img'}" alt="cover">
+                    <p>${h.titulo}</p>
+                `;
+                grid.appendChild(div);
+            });
+        }
     }
 
     // Guardar Nuevo Hub (Sección 1)
@@ -541,7 +540,6 @@
         guardarYNotificar();
         alert("¡Hub guardado exitosamente!");
 
-        // Limpiar campos
         document.getElementById('hubId').value = '';
         document.getElementById('hubTitulo').value = '';
         document.getElementById('hubPortada').value = '';
@@ -578,7 +576,6 @@
         guardarYNotificar();
         alert(`¡Capítulo ${capitulo} guardado con éxito!`);
 
-        // Siguiente número de capítulo sugerido
         document.getElementById('capNumero').value = capitulo + 1;
         document.getElementById('capTitulo').value = '';
         document.getElementById('capIframe').value = '';
@@ -593,16 +590,16 @@
 
         document.getElementById('formEditHub').style.display = 'block';
         document.getElementById('editHubId').value = hub.id;
-        document.getElementById('editHubTitulo').value = hub.titulo;
-        document.getElementById('editHubCategoria').value = hub.categoria;
-        document.getElementById('editHubPortada').value = hub.portada;
-        document.getElementById('editHubSinopsis').value = hub.sinopsis;
+        document.getElementById('editHubTitulo').value = hub.titulo || '';
+        document.getElementById('editHubCategoria').value = hub.categoria || 'Anime';
+        document.getElementById('editHubPortada').value = hub.portada || '';
+        document.getElementById('editHubSinopsis').value = hub.sinopsis || '';
 
         actualizarVistasPanel();
         poblarCapitulosDelHub(id);
     }
 
-    // Guardar cambios del Hub
+    // Guardar cambios generales del Hub
     function guardarCambiosHub() {
         const hub = baseDatos.hubs.find(h => h.id === hubSeleccionadoId);
         if (hub) {
@@ -616,7 +613,7 @@
         }
     }
 
-    // Poblar la lista desplegable de capítulos del Hub seleccionado
+    // Poblar desplegable de capítulos del Hub seleccionado
     function poblarCapitulosDelHub(hubId) {
         const select = document.getElementById('selectCapituloEdit');
         select.innerHTML = '<option value="">-- Selecciona un capítulo --</option>';
@@ -626,13 +623,13 @@
             if (cap.hubId === hubId) {
                 const opt = document.createElement('option');
                 opt.value = index;
-                opt.textContent = `T${cap.temporada} : Cap ${cap.capitulo} - ${cap.titulo}`;
+                opt.textContent = `T${cap.temporada || 1} : Cap ${cap.capitulo || 1} - ${cap.titulo}`;
                 select.appendChild(opt);
             }
         });
     }
 
-    // Cargar datos del capítulo a editar
+    // Cargar datos en el formulario del capítulo seleccionado
     function cargarDatosCapituloSeleccionado() {
         const index = document.getElementById('selectCapituloEdit').value;
         if (index === "") {
@@ -645,9 +642,9 @@
         const cap = baseDatos.capitulos[indexCapituloSeleccionado];
 
         if (cap) {
-            document.getElementById('eCapTemp').value = cap.temporada;
-            document.getElementById('eCapNum').value = cap.capitulo;
-            document.getElementById('eCapTitulo').value = cap.titulo;
+            document.getElementById('eCapTemp').value = cap.temporada || 1;
+            document.getElementById('eCapNum').value = cap.capitulo || 1;
+            document.getElementById('eCapTitulo').value = cap.titulo || '';
             document.getElementById('eCapIframe').value = cap.iframe || '';
             document.getElementById('eCapDescarga').value = cap.descarga || '';
             document.getElementById('eCapSinopsis').value = cap.sinopsis || '';
