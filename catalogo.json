@@ -291,6 +291,19 @@
           "season": 1,
           "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYQB6eQB9_WYAI8s9bUn67hGkkPwlNQkmLH2WpfG5jSg&s=10",
           "episodes": []
+        },
+        {
+          "season": 3,
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYQB6eQB9_WYAI8s9bUn67hGkkPwlNQkmLH2WpfG5jSg&s=10",
+          "episodes": [
+            {
+              "episode": 1,
+              "title": "El regreso de la Asociación de Monstruos",
+              "videoUrl": "<iframe src=\"https://streamtape.com/e/OVJWVPkbgbFG0e/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
+              "downloadUrl": "",
+              "synopsis": "La Asociación de Monstruos comienza a moverse desde las sombras, poniendo a prueba nuevamente a los héroes de la Asociación mientras Saitama lidia con su abrumadora rutina."
+            }
+          ]
         }
       ]
     }
