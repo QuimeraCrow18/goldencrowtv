@@ -235,6 +235,20 @@
           ]
         }
       ]
+    },
+    {
+      "id": "mad-max-saga",
+      "title": "Mad Max (Saga)",
+      "category": "peliculas",
+      "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5nZPnxQArTNWEKNhbb-7-PTFSF756S8a3u4CXOxqqkA&s=10",
+      "synopsis": "Saga cinematográfica de acción posapocalíptica ambientada en un desierto australiano donde los recursos como la gasolina y el agua son escasos, siguiendo las vivencias de Max Rockatansky.",
+      "seasons": [
+        {
+          "season": 1,
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5nZPnxQArTNWEKNhbb-7-PTFSF756S8a3u4CXOxqqkA&s=10",
+          "episodes": []
+        }
+      ]
     }
   ],
   "sponsors": [],
