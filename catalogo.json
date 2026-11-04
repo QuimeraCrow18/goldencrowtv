@@ -57,6 +57,13 @@
               "videoUrl": "<iframe src=\"https://streamtape.com/e/QwWry8zDJyUrRy/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
               "downloadUrl": "",
               "synopsis": "Rick le da a Morty una poción para que Jessica se enamore de él, pero un virus convierte a todo el mundo en mutantes, obligando a Rick y Morty a mudarse a otra dimensión."
+            },
+            {
+              "episode": 7,
+              "title": "Raising Gazorpazorp",
+              "videoUrl": "<iframe src=\"https://streamtape.com/e/VdpOamZk9ghxMK/\" width=\"800\" height=\"600\" allowfullscreen allowtransparency allow=\"autoplay\" scrolling=\"no\" frameborder=\"0\"></iframe>",
+              "downloadUrl": "",
+              "synopsis": "Summer va con Rick a un planeta extraterrestre de compras, mientras Morty adopta un bebé híbrido de una raza violenta de robots sexuales."
             }
           ]
         }
