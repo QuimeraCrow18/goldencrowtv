@@ -257,6 +257,20 @@
           ]
         }
       ]
+    },
+    {
+      "id": "rapidos-y-furiosos-saga",
+      "title": "Rápidos y Furiosos (Saga)",
+      "category": "peliculas",
+      "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMD02EvUPzsmTtS2UaFUpa6oqW5wvemiRAZJ5zsSr2-g&s=10",
+      "synopsis": "Saga cinematográfica de acción y automovilismo que sigue a Dominic Toretto, su familia y su equipo de pilotos callejeros convertidos en agentes encubiertos, enfrentando misiones imposibles alrededor del mundo.",
+      "seasons": [
+        {
+          "season": 1,
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMD02EvUPzsmTtS2UaFUpa6oqW5wvemiRAZJ5zsSr2-g&s=10",
+          "episodes": []
+        }
+      ]
     }
   ],
   "sponsors": [],
